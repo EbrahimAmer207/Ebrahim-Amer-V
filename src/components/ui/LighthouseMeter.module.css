@@ -1,0 +1,102 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+  opacity: 0.8;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background-color: #00e676;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00e676;
+}
+
+.meta {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+.metricItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.svgWrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scoreText {
+  position: absolute;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #00e676;
+  font-family: var(--font-mono);
+}
+
+.metricLabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* Specific stroke colors representing Lighthouse metrics */
+.performance, .accessibility, .bestPractices, .seo {
+  stroke: #00e676;
+  filter: drop-shadow(0 0 6px rgba(0, 230, 118, 0.4));
+}
+
+[data-theme="light"] .scoreText {
+  color: #08934b;
+}
+
+[data-theme="light"] .performance, 
+[data-theme="light"] .accessibility, 
+[data-theme="light"] .bestPractices, 
+[data-theme="light"] .seo {
+  stroke: #08934b;
+  filter: none;
+}

@@ -1,0 +1,341 @@
+/* ── Hero Wrapper ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 7rem;
+  padding-bottom: 4rem;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* Mouse-tracked radial glow */
+.radialGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    900px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(var(--accent-rgb), 0.065),
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Floating ambient blobs */
+.blob1 {
+  position: absolute;
+  top: -15%;
+  right: -5%;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.06) 0%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  animation: blobFloat 8s ease-in-out infinite;
+}
+
+.blob2 {
+  position: absolute;
+  bottom: -10%;
+  left: -8%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.04) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  animation: blobFloat 11s ease-in-out infinite reverse;
+}
+
+@keyframes blobFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-30px) scale(1.05); }
+}
+
+/* ── Two-column inner ── */
+.inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 5rem;
+  align-items: center;
+}
+
+/* ── LEFT ── */
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.badge {
+  margin-bottom: 2rem;
+  width: fit-content;
+  color: var(--text-secondary);
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(2.4rem, 5.5vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  margin-bottom: 1.75rem;
+}
+
+.titleLine {
+  display: block;
+}
+
+.accent {
+  background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.description {
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  color: var(--text-secondary);
+  max-width: 520px;
+  line-height: 1.7;
+  margin-bottom: 2.25rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 3.5rem;
+}
+
+.proofs {
+  display: flex;
+  gap: 3rem;
+  border-top: 1px solid var(--border-color);
+  padding-top: 2rem;
+}
+
+.proofCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.proofVal {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  font-family: var(--font-geist-mono, monospace);
+  letter-spacing: -0.02em;
+}
+
+.proofLabel {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── RIGHT: Photo ── */
+.photoWrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Outer glowing halo ring */
+.photoRing {
+  position: absolute;
+  inset: -18px;
+  border-radius: 28px;
+  background: conic-gradient(
+    from 180deg,
+    rgba(var(--accent-rgb), 0.35) 0%,
+    rgba(139, 92, 246, 0.2) 40%,
+    rgba(var(--accent-rgb), 0) 60%,
+    rgba(var(--accent-rgb), 0.35) 100%
+  );
+  filter: blur(12px);
+  animation: ringRotate 8s linear infinite;
+  z-index: 0;
+}
+
+@keyframes ringRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Photo container */
+.photoFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  max-width: 380px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.05),
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(var(--accent-rgb), 0.08);
+  z-index: 1;
+  background: var(--bg-secondary);
+}
+
+.photo {
+  transition: transform 0.6s ease;
+}
+
+.photoFrame:hover .photo {
+  transform: scale(1.04);
+}
+
+/* Bottom gradient fade */
+.photoFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  background: linear-gradient(to top, rgba(5,5,5,0.75) 0%, transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* "Open to Work" floating badge – top right */
+.floatBadge {
+  position: absolute;
+  top: -14px;
+  right: -16px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(5,5,5,0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+  border-radius: 100px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  white-space: nowrap;
+}
+
+.floatDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00e676;
+  box-shadow: 0 0 6px #00e676;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.8); }
+}
+
+/* Tech chip – bottom left */
+.techChip {
+  position: absolute;
+  bottom: -14px;
+  left: -16px;
+  z-index: 3;
+  background: rgba(5,5,5,0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  border-radius: 100px;
+  padding: 0.45rem 1rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.techChipLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  font-family: var(--font-geist-mono, monospace);
+}
+
+/* Decorative corner bracket lines */
+.corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.cornerTL {
+  top: -6px;
+  left: -6px;
+  border-top: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+  border-radius: 3px 0 0 0;
+}
+
+.cornerBR {
+  bottom: -6px;
+  right: -6px;
+  border-bottom: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+  border-radius: 0 0 3px 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .inner {
+    grid-template-columns: 1fr 340px;
+    gap: 3.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+
+  /* On mobile, photo goes first (top) */
+  .photoWrap {
+    order: -1;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .photoFrame {
+    max-width: 280px;
+    aspect-ratio: 3 / 4;
+    border-radius: 20px;
+  }
+
+  .photoRing {
+    border-radius: 24px;
+    inset: -14px;
+  }
+
+  .title {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .proofs {
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding-top: 6rem;
+  }
+}
