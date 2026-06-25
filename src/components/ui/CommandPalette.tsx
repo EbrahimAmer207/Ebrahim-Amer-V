@@ -117,7 +117,7 @@ export default function CommandPalette() {
       title: 'Download Curriculum Vitae (CV)',
       category: 'Actions',
       icon: <FileText size={18} />,
-      action: () => openLink('/Files/Ebrahim_Abdelmonem_Frontend_Developer_CV(1).pdf'),
+      action: () => openLink('/Files/Ebrahim_Amer_CV.pdf'),
     },
     {
       id: 'action-email',

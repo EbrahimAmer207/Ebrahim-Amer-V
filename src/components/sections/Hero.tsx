@@ -112,6 +112,12 @@ export default function Hero() {
               Let&rsquo;s Connect
               <Sparkles size={14} style={{ marginLeft: '0.4rem', display: 'inline-block', verticalAlign: 'middle', color: 'var(--accent)' }} />
             </Button>
+            <a href="/Files/Ebrahim_Amer_CV.pdf" download="Ebrahim_Amer_CV.pdf" style={{ textDecoration: 'none' }}>
+              <Button variant="secondary">
+                Download CV
+                <Download size={14} style={{ marginLeft: '0.4rem', display: 'inline-block', verticalAlign: 'middle' }} />
+              </Button>
+            </a>
           </motion.div>
 
           {/* Proof stats */}
