@@ -10,6 +10,7 @@ import About from '@/components/sections/About';
 import ProjectShowcase from '@/components/sections/ProjectShowcase';
 import Experience from '@/components/sections/Experience';
 import InteractiveSkills from '@/components/sections/InteractiveSkills';
+import Availability from '@/components/sections/Availability';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/layout/Footer';
 import CustomCursor from '@/components/ui/CustomCursor';
@@ -55,6 +56,7 @@ export default function Home() {
             <ProjectShowcase />
             <Experience />
             <InteractiveSkills />
+            <Availability />
             <Contact />
           </main>
 
