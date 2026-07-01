@@ -81,11 +81,11 @@
 }
 
 .rowLeft {
-  animation: scrollLeft 40s linear infinite;
+  animation: scrollLeft 70s linear infinite;
 }
 
 .rowRight {
-  animation: scrollRight 40s linear infinite;
+  animation: scrollRight 70s linear infinite;
 }
 
 /* Pause marquee scrolling animation on hover */
