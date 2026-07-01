@@ -112,6 +112,24 @@ export default function InteractiveSkills() {
     { id: 'tools', label: 'Tools & Practices' },
   ];
 
+  // Split filtered skills into two rows for the dual-row marquee
+  const row1Skills = filteredSkills.filter((_, idx) => idx % 2 === 0);
+  const row2Skills = filteredSkills.filter((_, idx) => idx % 2 !== 0);
+
+  const prepareMarqueeItems = (items: SkillItem[]) => {
+    if (items.length === 0) return [];
+    let baseList = [...items];
+    // Keep appending to make sure the track spans wider than the screen width
+    while (baseList.length < 10) {
+      baseList = [...baseList, ...items];
+    }
+    // Duplicate for seamless 50% transition looping
+    return [...baseList, ...baseList];
+  };
+
+  const marquee1 = prepareMarqueeItems(row1Skills);
+  const marquee2 = prepareMarqueeItems(row2Skills);
+
   return (
     <section id="skills" className={styles.section}>
       <div className="container">
@@ -145,26 +163,47 @@ export default function InteractiveSkills() {
           </div>
         </div>
 
-        {/* Map Cloud */}
-        <motion.div layout className={styles.cloud}>
-          <AnimatePresence mode="popLayout">
-            {filteredSkills.map((skill) => (
-              <motion.div
-                layout
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.85 }}
-                transition={{ duration: 0.25 }}
-                key={skill.name}
-                className={`${styles.skillPill} ${styles[skill.level.toLowerCase()]}`}
-              >
-                <span className={styles.iconWrapper}>{getSkillIcon(skill.name)}</span>
-                <span className={styles.name}>{skill.name}</span>
-                <span className={styles.dot} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        {/* Dynamic Dual-Row Marquee */}
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={activeTab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className={styles.marqueeContainer}
+          >
+            {marquee1.length > 0 && (
+              <div className={`${styles.marqueeRow} ${styles.rowLeft}`}>
+                {marquee1.map((skill, index) => (
+                  <div
+                    key={`${skill.name}-r1-${index}`}
+                    className={`${styles.skillPill} ${styles[skill.level.toLowerCase()]}`}
+                  >
+                    <span className={styles.iconWrapper}>{getSkillIcon(skill.name)}</span>
+                    <span className={styles.name}>{skill.name}</span>
+                    <span className={styles.dot} />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {marquee2.length > 0 && (
+              <div className={`${styles.marqueeRow} ${styles.rowRight}`}>
+                {marquee2.map((skill, index) => (
+                  <div
+                    key={`${skill.name}-r2-${index}`}
+                    className={`${styles.skillPill} ${styles[skill.level.toLowerCase()]}`}
+                  >
+                    <span className={styles.iconWrapper}>{getSkillIcon(skill.name)}</span>
+                    <span className={styles.name}>{skill.name}</span>
+                    <span className={styles.dot} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
 
       </div>
     </section>

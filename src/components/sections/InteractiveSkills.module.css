@@ -58,31 +58,76 @@
   border-color: var(--border-color);
 }
 
-.cloud {
+.marqueeContainer {
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem 1rem;
-  margin-top: 3rem;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+  width: 100%;
+  overflow: hidden;
+  padding: 1rem 0;
+  /* Fade edges utilizing CSS Mask */
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+.marqueeRow {
+  display: flex;
+  width: max-content;
+  gap: 1.25rem;
+  padding: 0.2rem 0;
+  will-change: transform;
+}
+
+.rowLeft {
+  animation: scrollLeft 40s linear infinite;
+}
+
+.rowRight {
+  animation: scrollRight 40s linear infinite;
+}
+
+/* Pause marquee scrolling animation on hover */
+.marqueeRow:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes scrollRight {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .skillPill {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  padding: 0.6rem 1.25rem;
+  padding: 0.65rem 1.35rem;
   border-radius: 100px;
   background: rgba(10, 10, 15, 0.45) !important;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.06) !important;
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--text-primary);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  user-select: none;
+  flex-shrink: 0;
 }
 
 .iconWrapper {
@@ -164,13 +209,12 @@
   .section {
     padding: 5rem 0;
   }
-  .cloud {
-    gap: 0.6rem 0.75rem;
+  .marqueeContainer {
+    gap: 1rem;
     margin-top: 2rem;
-    padding: 0 1rem;
   }
   .skillPill {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.1rem;
     font-size: 0.8rem;
   }
 }
