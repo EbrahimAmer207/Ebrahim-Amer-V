@@ -25,9 +25,16 @@ This portfolio is not just a resume; it is an interactive engineering showcase. 
 - **Core Web Vitals Tracker**: Features an interactive, custom-animated Lighthouse meter built inside React.
 - **Perfect Scores**: Dynamically tracks and proves the site's production-grade performance, accessibility, best practices, and SEO.
 
-### 🗺️ Interactive Skill & Capability Map
-- **Custom Filters**: A localized interactive matrix allowing users to filter skills by **Languages**, **Frontend UI**, **Backend & DB**, and **Tools & Practices**.
-- **Layout Transitions**: Layouts animate smoothly via `framer-motion` layout groups as tags are filtered.
+### 🗺️ Interactive Skill Map & Marquee
+- **Premium Dual-Row Marquee**: Split dynamically into two parallel tracks moving in opposite directions with a hardware-accelerated linear animation.
+- **Micro-Interactions**: Hovering over any skill pill or row automatically pauses the marquee (`animation-play-state: paused`) for easy cursor inspection.
+- **Edge Fading Mask**: Utilizes CSS `mask-image` linear gradients to seamlessly blend scrolling tags into the screen margins.
+- **Smooth Layout Transitions**: Category filters animate changing lists dynamically using Framer Motion exit/enter transitions.
+
+### 🟢 Professional Availability Module ("Available For")
+- **Active Status Indicator**: Includes a live green pulsing badge notifying recruiters of active availability.
+- **Glassmorphic Grid**: Categorized opportunities into highly visual, glowing-border cards (Junior Frontend Roles, Internships, and Freelance/Contracting).
+- **Interactive Call-To-Action**: Smooth scroll hooks that direct potential employers instantly to the connection portal.
 
 ### 🐙 Dynamic GitHub Contribution Widget
 - **Activity Graph**: Simulates a high-performance commit activity matrix matching GitHub’s official contribution interface.
@@ -68,7 +75,7 @@ This application is built with zero CSS frameworks in the core (Vanilla CSS modu
 │   │   └── page.tsx        # Main entry point (landing page)
 │   ├── components/
 │   │   ├── layout/         # Navigation, Loader, Footer wrappers
-│   │   ├── sections/       # Hero, About, Projects, Experience, Skills, Contact
+│   │   ├── sections/       # Hero, About, Projects, Experience, Skills, Availability, Contact
 │   │   └── ui/             # CommandPalette, LighthouseMeter, GithubActivity, Background3D
 │   ├── context/            # Global context (e.g. AppContext for theme & palette state)
 │   ├── data/               # Static project databases (projectsData.ts)
