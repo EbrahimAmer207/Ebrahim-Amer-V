@@ -49,7 +49,7 @@ function CircularMetric({ label, score, colorClass, delay, isInView }: MetricPro
             cx="40"
             cy="40"
             r={radius}
-            stroke="rgba(255,255,255,0.04)"
+            stroke="var(--border-color)"
             strokeWidth={strokeWidth}
             fill="transparent"
           />

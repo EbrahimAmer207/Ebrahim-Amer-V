@@ -2,13 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { useApp } from '@/context/AppContext';
-import { Sun, Moon, Command, Sparkles } from 'lucide-react';
+import { Sun, Moon, Command, Sparkles, Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Navigation.module.css';
 
 export default function Navigation() {
   const { toggleTheme, theme, toggleCommandPalette } = useApp();
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,8 +93,47 @@ export default function Navigation() {
           >
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
+
+          <button 
+            className={styles.mobileMenuToggle} 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            title="Toggle Menu"
+          >
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Drawer Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className={styles.mobileDrawer}
+          >
+            <ul className={styles.mobileMenu}>
+              {navItems.map((item) => (
+                <li
+                  key={item.id}
+                  className={`${styles.mobileMenuItem} ${activeSection === item.id ? styles.mobileActive : ''}`}
+                  onClick={() => {
+                    scrollTo(item.id);
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  {item.label}
+                  {activeSection === item.id && (
+                    <span className={styles.mobileIndicator} />
+                  )}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

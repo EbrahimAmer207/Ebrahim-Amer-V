@@ -294,6 +294,20 @@
 }
 
 /* ── Responsive ── */
+/* ── Light Mode Overrides for Hero Overlays ── */
+[data-theme="light"] .photoFade {
+  background: linear-gradient(to top, rgba(240, 244, 255, 0.85) 0%, transparent 100%);
+}
+
+[data-theme="light"] .floatBadge,
+[data-theme="light"] .techChip {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: var(--text-primary);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Responsive ── */
 @media (max-width: 1024px) {
   .inner {
     grid-template-columns: 1fr 340px;
@@ -325,12 +339,29 @@
     inset: -14px;
   }
 
+  /* Center alignments for text and components on mobile */
+  .left {
+    align-items: center;
+    text-align: center;
+  }
+
+  .badge {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .title {
     font-size: clamp(2rem, 8vw, 3rem);
   }
 
+  .actions {
+    justify-content: center;
+  }
+
   .proofs {
+    justify-content: center;
     gap: 2rem;
+    width: 100%;
   }
 }
 

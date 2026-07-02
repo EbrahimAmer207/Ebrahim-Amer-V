@@ -47,6 +47,16 @@
   overflow: hidden;
 }
 
+[data-theme="light"] .card {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .ctaBanner {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
 .cardHeader {
   display: flex;
   justify-content: space-between;

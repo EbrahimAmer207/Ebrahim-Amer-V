@@ -126,6 +126,12 @@ button, input, textarea {
   padding: 0 2rem;
 }
 
+@media (max-width: 640px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+}
+
 .text-gradient {
   background: linear-gradient(135deg, #ffffff 30%, rgba(255, 255, 255, 0.6) 100%);
   -webkit-background-clip: text;

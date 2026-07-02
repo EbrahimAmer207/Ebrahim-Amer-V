@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { useApp } from '@/context/AppContext';
 import { 
   Code2, 
   FileJson, 
@@ -29,27 +30,28 @@ interface SkillItem {
   level: 'Expert' | 'Advanced' | 'Intermediate';
 }
 
-const getSkillIcon = (name: string) => {
+const getSkillIcon = (name: string, isLight: boolean) => {
   const n = name.toLowerCase();
-  if (n.includes('javascript')) return <Code2 size={15} style={{ color: '#f7df1e' }} />;
+  if (n.includes('javascript')) return <Code2 size={15} style={{ color: '#d4a800' }} />;
   if (n.includes('typescript')) return <FileJson size={15} style={{ color: '#3178c6' }} />;
-  if (n.includes('react.js') || n.includes('react native')) return <Atom size={15} style={{ color: '#61dafb' }} />;
+  if (n.includes('react.js') || n.includes('react native')) return <Atom size={15} style={{ color: '#0fb5d0' }} />;
   if (n.includes('redux')) return <Atom size={15} style={{ color: '#764abc' }} />;
-  if (n.includes('next.js')) return <Layers size={15} style={{ color: '#ffffff' }} />;
+  // Next.js: white on dark, black on light
+  if (n.includes('next.js')) return <Layers size={15} style={{ color: isLight ? '#111111' : '#ffffff' }} />;
   if (n.includes('html5') || n.includes('css3')) return <Globe size={15} style={{ color: '#e34f26' }} />;
-  if (n.includes('tailwind')) return <Wind size={15} style={{ color: '#38bdf8' }} />;
+  if (n.includes('tailwind')) return <Wind size={15} style={{ color: '#0ea5e9' }} />;
   if (n.includes('bootstrap')) return <Layout size={15} style={{ color: '#7952b3' }} />;
   if (n.includes('jquery')) return <Code2 size={15} style={{ color: '#0769ad' }} />;
   if (n.includes('laravel')) return <Layers size={15} style={{ color: '#ff2d20' }} />;
-  if (n.includes('php')) return <Code2 size={15} style={{ color: '#777bb4' }} />;
+  if (n.includes('php')) return <Code2 size={15} style={{ color: '#6272a4' }} />;
   if (n.includes('mysql') || n.includes('sql')) return <Database size={15} style={{ color: '#00758f' }} />;
   if (n.includes('restful')) return <Globe size={15} style={{ color: '#10b981' }} />;
-  if (n.includes('mvc') || n.includes('oop')) return <Workflow size={15} style={{ color: '#a78bfa' }} />;
+  if (n.includes('mvc') || n.includes('oop')) return <Workflow size={15} style={{ color: '#7c3aed' }} />;
   if (n.includes('git')) return <GitBranch size={15} style={{ color: '#f05032' }} />;
   if (n.includes('claude') || n.includes('antigravity') || n.includes('cursor')) return <Terminal size={15} style={{ color: 'var(--accent)' }} />;
-  if (n.includes('data structures') || n.includes('algorithms')) return <Binary size={15} style={{ color: '#fb7185' }} />;
-  if (n.includes('performance')) return <Gauge size={15} style={{ color: '#34d399' }} />;
-  if (n.includes('problem solving')) return <Cpu size={15} style={{ color: '#fbbf24' }} />;
+  if (n.includes('data structures') || n.includes('algorithms')) return <Binary size={15} style={{ color: '#e11d48' }} />;
+  if (n.includes('performance')) return <Gauge size={15} style={{ color: '#059669' }} />;
+  if (n.includes('problem solving')) return <Cpu size={15} style={{ color: '#d97706' }} />;
   if (n.includes('python')) return <Terminal size={15} style={{ color: '#3776ab' }} />;
   if (n.includes('c++')) return <Code2 size={15} style={{ color: '#00599c' }} />;
   if (n.includes('c#')) return <Code2 size={15} style={{ color: '#239120' }} />;
@@ -60,6 +62,8 @@ const getSkillIcon = (name: string) => {
 export default function InteractiveSkills() {
   const [activeTab, setActiveTab] = useState<SkillCategory>('all');
   const header = useScrollReveal({ threshold: 0.1 });
+  const { theme } = useApp();
+  const isLight = theme === 'light';
 
   const skills: SkillItem[] = [
     // Languages
@@ -180,7 +184,7 @@ export default function InteractiveSkills() {
                     key={`${skill.name}-r1-${index}`}
                     className={`${styles.skillPill} ${styles[skill.level.toLowerCase()]}`}
                   >
-                    <span className={styles.iconWrapper}>{getSkillIcon(skill.name)}</span>
+                    <span className={styles.iconWrapper}>{getSkillIcon(skill.name, isLight)}</span>
                     <span className={styles.name}>{skill.name}</span>
                     <span className={styles.dot} />
                   </div>
@@ -195,7 +199,7 @@ export default function InteractiveSkills() {
                     key={`${skill.name}-r2-${index}`}
                     className={`${styles.skillPill} ${styles[skill.level.toLowerCase()]}`}
                   >
-                    <span className={styles.iconWrapper}>{getSkillIcon(skill.name)}</span>
+                    <span className={styles.iconWrapper}>{getSkillIcon(skill.name, isLight)}</span>
                     <span className={styles.name}>{skill.name}</span>
                     <span className={styles.dot} />
                   </div>
