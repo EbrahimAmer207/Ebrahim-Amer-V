@@ -127,78 +127,63 @@
   }
 }
 
-/* Mobile Menu Toggle Button */
-.mobileMenuToggle {
+/* Custom Mobile Menu Trigger Button */
+.mobileTriggerBtn {
   display: none;
   align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
-  border-radius: 50%;
-  color: var(--text-secondary);
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 100px;
+  color: var(--text-primary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   cursor: pointer;
   transition: var(--transition-fast);
 }
 
-.mobileMenuToggle:hover {
-  color: var(--text-primary);
+.mobileTriggerBtn:hover {
+  border-color: var(--accent);
   background: var(--bg-hover);
 }
 
+.triggerLabel {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+}
+
+.triggerIconWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  width: 14px;
+  height: 14px;
+  position: relative;
+}
+
+.triggerBar {
+  width: 14px;
+  height: 1.5px;
+  background-color: var(--accent);
+  border-radius: 2px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.barTopOpen {
+  transform: translateY(2.75px) rotate(45deg);
+}
+
+.barBottomOpen {
+  transform: translateY(-2.75px) rotate(-45deg);
+}
+
 @media (max-width: 768px) {
-  .mobileMenuToggle {
-    display: flex;
+  .mobileTriggerBtn {
+    display: inline-flex;
   }
 }
 
-/* Mobile Drawer */
-.mobileDrawer {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background: rgba(5, 5, 5, 0.95);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border-color);
-  padding: 1.5rem 2rem;
-  z-index: 98;
-}
-
-[data-theme="light"] .mobileDrawer {
-  background: rgba(250, 250, 250, 0.98);
-}
-
-.mobileMenu {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  list-style: none;
-}
-
-.mobileMenuItem {
-  position: relative;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: var(--transition-fast);
-  padding: 0.5rem 0;
-  width: fit-content;
-}
-
-.mobileMenuItem:hover {
-  color: var(--text-primary);
-}
-
-.mobileActive {
-  color: var(--text-primary);
-}
-
-.mobileIndicator {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: var(--accent);
-  border-radius: 4px;
-}

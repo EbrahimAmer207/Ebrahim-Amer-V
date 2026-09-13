@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useApp } from '@/context/AppContext';
-import { Sun, Moon, Command, Sparkles, Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Sun, Moon, Command, Sparkles } from 'lucide-react';
+import MobileNavigation from './MobileNavigation';
 import styles from './Navigation.module.css';
 
 export default function Navigation() {
@@ -54,86 +54,74 @@ export default function Navigation() {
   ];
 
   return (
-    <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
-      <div className={styles.container}>
-        <div className={styles.logo} onClick={() => scrollTo('home')}>
-          <Sparkles size={16} className={styles.logoIcon} />
-          <span className={styles.logoText}>EBRAHIM AMER</span>
-        </div>
+    <>
+      <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
+        <div className={styles.container}>
+          <div className={styles.logo} onClick={() => scrollTo('home')}>
+            <Sparkles size={16} className={styles.logoIcon} />
+            <span className={styles.logoText}>EBRAHIM AMER</span>
+          </div>
 
-        <ul className={styles.menu}>
-          {navItems.map((item) => (
-            <li
-              key={item.id}
-              className={`${styles.menuItem} ${activeSection === item.id ? styles.active : ''}`}
-              onClick={() => scrollTo(item.id)}
+          <ul className={styles.menu}>
+            {navItems.map((item) => (
+              <li
+                key={item.id}
+                className={`${styles.menuItem} ${activeSection === item.id ? styles.active : ''}`}
+                onClick={() => scrollTo(item.id)}
+              >
+                {item.label}
+                {activeSection === item.id && (
+                  <span className={styles.indicator} />
+                )}
+              </li>
+            ))}
+          </ul>
+
+          <div className={styles.actions}>
+            <button 
+              className={styles.cmdBtn} 
+              onClick={toggleCommandPalette}
+              title="Open Command Palette (Ctrl+K)"
             >
-              {item.label}
-              {activeSection === item.id && (
-                <span className={styles.indicator} />
-              )}
-            </li>
-          ))}
-        </ul>
+              <Command size={14} />
+              <span>K</span>
+            </button>
 
-        <div className={styles.actions}>
-          <button 
-            className={styles.cmdBtn} 
-            onClick={toggleCommandPalette}
-            title="Open Command Palette (Ctrl+K)"
-          >
-            <Command size={14} />
-            <span>K</span>
-          </button>
+            <button 
+              className={styles.themeToggle} 
+              onClick={toggleTheme}
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
 
-          <button 
-            className={styles.themeToggle} 
-            onClick={toggleTheme}
-            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-          >
-            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-
-          <button 
-            className={styles.mobileMenuToggle} 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            title="Toggle Menu"
-          >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+            {/* Custom Mobile Menu Trigger */}
+            <button 
+              className={styles.mobileTriggerBtn} 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              title={mobileMenuOpen ? "Close Navigation Menu" : "Open Navigation Menu"}
+              aria-expanded={mobileMenuOpen}
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            >
+              <span className={styles.triggerLabel}>{mobileMenuOpen ? 'CLOSE' : 'MENU'}</span>
+              <span className={styles.triggerIconWrap}>
+                <span className={`${styles.triggerBar} ${mobileMenuOpen ? styles.barTopOpen : ''}`} />
+                <span className={`${styles.triggerBar} ${mobileMenuOpen ? styles.barBottomOpen : ''}`} />
+              </span>
+            </button>
+          </div>
         </div>
-      </div>
+      </nav>
 
-      {/* Mobile Drawer Overlay */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className={styles.mobileDrawer}
-          >
-            <ul className={styles.mobileMenu}>
-              {navItems.map((item) => (
-                <li
-                  key={item.id}
-                  className={`${styles.mobileMenuItem} ${activeSection === item.id ? styles.mobileActive : ''}`}
-                  onClick={() => {
-                    scrollTo(item.id);
-                    setMobileMenuOpen(false);
-                  }}
-                >
-                  {item.label}
-                  {activeSection === item.id && (
-                    <span className={styles.mobileIndicator} />
-                  )}
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+      {/* Redesigned Fullscreen Editorial Mobile Navigation Overlay */}
+      <MobileNavigation
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        activeSection={activeSection}
+        onSelectSection={scrollTo}
+        navItems={navItems}
+      />
+    </>
   );
 }
+

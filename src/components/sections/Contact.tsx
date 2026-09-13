@@ -16,9 +16,9 @@ const LinkedinIcon = () => (
 );
 
 export default function Contact() {
-  const header = useScrollReveal({ threshold: 0.1 });
-  const left   = useScrollReveal({ threshold: 0.08 });
-  const right  = useScrollReveal({ threshold: 0.08 });
+  const { ref: headerRef, isVisible: headerIsVisible } = useScrollReveal({ threshold: 0.1 });
+  const { ref: leftRef, isVisible: leftIsVisible } = useScrollReveal({ threshold: 0.08 });
+  const { ref: rightRef, isVisible: rightIsVisible } = useScrollReveal({ threshold: 0.08 });
 
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
@@ -81,8 +81,8 @@ export default function Contact() {
 
         {/* Header */}
         <div
-          ref={header.ref}
-          className={`${styles.header} reveal reveal-up ${header.isVisible ? 'reveal-visible' : ''}`}
+          ref={headerRef}
+          className={`${styles.header} reveal reveal-up ${headerIsVisible ? 'reveal-visible' : ''}`}
         >
           <div className="pulse-badge">
             <span style={{ color: 'var(--accent)' }}>GET IN TOUCH</span>
@@ -99,8 +99,8 @@ export default function Contact() {
 
           {/* Left: Direct Links */}
           <div
-            ref={left.ref}
-            className={`${styles.contactDetails} reveal reveal-left ${left.isVisible ? 'reveal-visible' : ''}`}
+            ref={leftRef}
+            className={`${styles.contactDetails} reveal reveal-left ${leftIsVisible ? 'reveal-visible' : ''}`}
           >
             <h3 className={styles.columnTitle}>Direct Access</h3>
             <p className={styles.columnDesc}>
@@ -108,7 +108,7 @@ export default function Contact() {
             </p>
 
             <div className={styles.cardsWrap}>
-              <Card className={`${styles.contactCard} reveal reveal-up reveal-delay-1 ${left.isVisible ? 'reveal-visible' : ''}`}>
+              <Card className={`${styles.contactCard} reveal reveal-up reveal-delay-1 ${leftIsVisible ? 'reveal-visible' : ''}`}>
                 <div className={styles.cardLeft}>
                   <Mail size={18} className={styles.cardIcon} />
                   <div className={styles.cardInfo}>
@@ -121,7 +121,7 @@ export default function Contact() {
                 </button>
               </Card>
 
-              <Card className={`${styles.contactCard} reveal reveal-up reveal-delay-2 ${left.isVisible ? 'reveal-visible' : ''}`}>
+              <Card className={`${styles.contactCard} reveal reveal-up reveal-delay-2 ${leftIsVisible ? 'reveal-visible' : ''}`}>
                 <div className={styles.cardLeft}>
                   <Phone size={18} className={styles.cardIcon} />
                   <div className={styles.cardInfo}>
@@ -135,7 +135,7 @@ export default function Contact() {
               </Card>
             </div>
 
-            <div className={`${styles.socials} reveal reveal-up reveal-delay-3 ${left.isVisible ? 'reveal-visible' : ''}`}>
+            <div className={`${styles.socials} reveal reveal-up reveal-delay-3 ${leftIsVisible ? 'reveal-visible' : ''}`}>
               <a href="https://github.com/EbrahimAmer207" target="_blank" rel="noopener noreferrer" className={styles.socialBadge}>
                 <GitBranch size={16} /> <span>GitHub</span>
               </a>
@@ -147,8 +147,8 @@ export default function Contact() {
 
           {/* Right: Form */}
           <div
-            ref={right.ref}
-            className={`reveal reveal-right ${right.isVisible ? 'reveal-visible' : ''}`}
+            ref={rightRef}
+            className={`reveal reveal-right ${rightIsVisible ? 'reveal-visible' : ''}`}
           >
             <Card className={styles.formCard}>
               <form onSubmit={handleSubmit} className={styles.form}>

@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
@@ -9,8 +8,8 @@ import { Code, GraduationCap, Briefcase, ArrowRight, CheckCircle } from 'lucide-
 import styles from './Availability.module.css';
 
 export default function Availability() {
-  const header = useScrollReveal({ threshold: 0.1 });
-  const cards = useScrollReveal({ threshold: 0.1 });
+  const { ref: headerRef, isVisible: headerIsVisible } = useScrollReveal({ threshold: 0.1 });
+  const { ref: cardsRef, isVisible: cardsIsVisible } = useScrollReveal({ threshold: 0.1 });
 
   const scrollToContact = () => {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
@@ -49,8 +48,8 @@ export default function Availability() {
         
         {/* Section Header */}
         <div
-          ref={header.ref}
-          className={`${styles.header} reveal reveal-up ${header.isVisible ? 'reveal-visible' : ''}`}
+          ref={headerRef}
+          className={`${styles.header} reveal reveal-up ${headerIsVisible ? 'reveal-visible' : ''}`}
         >
           <div className="pulse-badge">
             <div className="pulse-dot" style={{ backgroundColor: '#10b981', boxShadow: '0 0 8px #10b981' }} />
@@ -66,8 +65,8 @@ export default function Availability() {
 
         {/* Opportunities Grid */}
         <div
-          ref={cards.ref}
-          className={`${styles.grid} reveal reveal-up ${cards.isVisible ? 'reveal-visible' : ''}`}
+          ref={cardsRef}
+          className={`${styles.grid} reveal reveal-up ${cardsIsVisible ? 'reveal-visible' : ''}`}
         >
           {opportunities.map((opt, idx) => (
             <Card key={idx} className={`${styles.card} ${opt.accentClass}`}>
@@ -94,7 +93,7 @@ export default function Availability() {
         <div className={styles.ctaBanner}>
           <p>Have an open role or client project that aligns with my expertise?</p>
           <Button variant="primary" onClick={scrollToContact} magnetic={true}>
-            Let's Discuss Opportunities
+            Let&apos;s Discuss Opportunities
             <ArrowRight size={16} style={{ marginLeft: '0.5rem', display: 'inline-block', verticalAlign: 'middle' }} />
           </Button>
         </div>

@@ -2,6 +2,7 @@
 
 import React, { use } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { projectsData } from '@/data/projectsData';
 import { Card } from '@/components/ui/Card';
@@ -79,7 +80,14 @@ export default function CaseStudyPage({ params }: PageProps) {
             </div>
 
             <div className={styles.heroImgFrame}>
-              <img src={imagePath} alt={project.title} className={styles.heroImg} />
+              <Image
+                src={imagePath}
+                alt={project.title}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className={styles.heroImg}
+                priority
+              />
             </div>
           </div>
 

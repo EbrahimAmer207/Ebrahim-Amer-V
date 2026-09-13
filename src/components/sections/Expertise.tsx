@@ -6,8 +6,8 @@ import MobileCarousel from '../ui/MobileCarousel';
 import styles from './Expertise.module.css';
 
 export default function Expertise() {
-  const header = useScrollReveal({ threshold: 0.1 });
-  const grid   = useScrollReveal({ threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+  const { ref: headerRef, isVisible: headerIsVisible } = useScrollReveal({ threshold: 0.1 });
+  const { ref: gridRef, isVisible: gridIsVisible } = useScrollReveal({ threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
 
   const coreStack = [
     { title: 'React Architecture',     icon: <Cpu size={24} />,     desc: 'Expertise in building scalable SPAs with optimized component structures, custom hook state patterns, and clean context flows.' },
@@ -25,8 +25,8 @@ export default function Expertise() {
 
           {/* Header */}
           <div
-            ref={header.ref}
-            className={`${styles.header} reveal reveal-up ${header.isVisible ? 'reveal-visible' : ''}`}
+            ref={headerRef}
+            className={`${styles.header} reveal reveal-up ${headerIsVisible ? 'reveal-visible' : ''}`}
           >
             <div className="pulse-badge">
               <span style={{ color: 'var(--accent)' }}>DOMAINS</span>
@@ -41,12 +41,12 @@ export default function Expertise() {
           </div>
 
           {/* Grid – each card staggered, turns into a carousel on mobile */}
-          <div ref={grid.ref}>
+          <div ref={gridRef}>
             <MobileCarousel desktopGridClass={styles.grid}>
               {coreStack.map((item, i) => (
                 <Card
                   key={i}
-                  className={`${styles.card} reveal reveal-up reveal-delay-${i + 1} ${grid.isVisible ? 'reveal-visible' : ''}`}
+                  className={`${styles.card} reveal reveal-up reveal-delay-${i + 1} ${gridIsVisible ? 'reveal-visible' : ''}`}
                   style={{ height: '100%', minHeight: '260px' }}
                 >
                   <div className={styles.iconWrap}>{item.icon}</div>

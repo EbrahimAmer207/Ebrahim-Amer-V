@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Card } from '../ui/Card';
 import { projectsData } from '@/data/projectsData';
 import { ArrowUpRight, GitBranch, ExternalLink } from 'lucide-react';
@@ -57,9 +58,9 @@ const archiveProjects = [
 
 export default function ProjectShowcase() {
   const [filter, setFilter] = useState<'all' | 'featured' | 'archive'>('all');
-  const header   = useScrollReveal({ threshold: 0.1 });
-  const featured = useScrollReveal({ threshold: 0.05 });
-  const archive  = useScrollReveal({ threshold: 0.05 });
+  const { ref: headerRef, isVisible: headerIsVisible } = useScrollReveal({ threshold: 0.1 });
+  const { ref: featuredRef, isVisible: featuredIsVisible } = useScrollReveal({ threshold: 0.05 });
+  const { ref: archiveRef, isVisible: archiveIsVisible } = useScrollReveal({ threshold: 0.05 });
 
   return (
     <section id="projects" className={styles.section}>
@@ -67,8 +68,8 @@ export default function ProjectShowcase() {
         
         {/* Section Header */}
         <div
-          ref={header.ref}
-          className={`${styles.header} reveal reveal-up ${header.isVisible ? 'reveal-visible' : ''}`}
+          ref={headerRef}
+          className={`${styles.header} reveal reveal-up ${headerIsVisible ? 'reveal-visible' : ''}`}
         >
           <div className="pulse-badge">
             <span style={{ color: 'var(--accent)' }}>CASE STUDIES</span>
@@ -90,7 +91,7 @@ export default function ProjectShowcase() {
 
         {/* Featured Case Studies Grid */}
         {(filter === 'all' || filter === 'featured') && (
-          <div ref={featured.ref}>
+          <div ref={featuredRef}>
             <MobileCarousel desktopGridClass={styles.featuredGrid}>
               {projectsData.map((project) => {
                 const imagePath = projectImages[project.slug] || '/Img/port.png';
@@ -98,7 +99,7 @@ export default function ProjectShowcase() {
                 return (
                   <div
                     key={project.slug}
-                    className={`${styles.projectWrapper} reveal reveal-scale reveal-delay-${(projectsData.indexOf(project) % 3) + 1} ${featured.isVisible ? 'reveal-visible' : ''}`}
+                    className={`${styles.projectWrapper} reveal reveal-scale reveal-delay-${(projectsData.indexOf(project) % 3) + 1} ${featuredIsVisible ? 'reveal-visible' : ''}`}
                     data-cursor="explore"
                   >
                     <Link href={`/projects/${project.slug}`} className={styles.linkWrapper}>
@@ -106,7 +107,13 @@ export default function ProjectShowcase() {
                         
                         {/* Image Preview frame */}
                         <div className={styles.imgFrame}>
-                          <img src={imagePath} alt={project.title} className={styles.img} />
+                          <Image
+                            src={imagePath}
+                            alt={project.title}
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 50vw"
+                            className={styles.img}
+                          />
                           <div className={styles.hoverMask}>
                             <span className={styles.maskText}>Read Case Study</span>
                             <ArrowUpRight size={20} />
@@ -149,13 +156,19 @@ export default function ProjectShowcase() {
 
         {/* Archive / Secondary Grid */}
         {(filter === 'all' || filter === 'archive') && (
-          <div ref={archive.ref} className={styles.archiveWrapper}>
+          <div ref={archiveRef} className={styles.archiveWrapper}>
             {(filter === 'archive') && <h3 className={styles.archiveHeader}>Client Prototypes</h3>}
             <MobileCarousel desktopGridClass={styles.archiveGrid}>
               {archiveProjects.map((proj, index) => (
-                <Card key={index} className={`${styles.archiveCard} reveal reveal-up reveal-delay-${(index % 4) + 1} ${archive.isVisible ? 'reveal-visible' : ''}`} style={{ height: '100%' }}>
+                <Card key={index} className={`${styles.archiveCard} reveal reveal-up reveal-delay-${(index % 4) + 1} ${archiveIsVisible ? 'reveal-visible' : ''}`} style={{ height: '100%' }}>
                   <div className={styles.archImgFrame}>
-                    <img src={proj.image} alt={proj.title} className={styles.archImg} />
+                    <Image
+                      src={proj.image}
+                      alt={proj.title}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 25vw"
+                      className={styles.archImg}
+                    />
                   </div>
                   <div className={styles.archInfo}>
                     <h4 className={styles.archTitle}>{proj.title}</h4>

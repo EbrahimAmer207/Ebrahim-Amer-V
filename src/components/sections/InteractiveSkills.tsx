@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { useApp } from '@/context/AppContext';
 import { 
   Code2, 
   FileJson, 
@@ -30,14 +29,20 @@ interface SkillItem {
   level: 'Expert' | 'Advanced' | 'Intermediate';
 }
 
-const getSkillIcon = (name: string, isLight: boolean) => {
+const levelClasses: Record<string, string> = {
+  expert: styles.expert || '',
+  advanced: styles.advanced || '',
+  intermediate: styles.intermediate || '',
+};
+
+const getSkillIcon = (name: string) => {
   const n = name.toLowerCase();
   if (n.includes('javascript')) return <Code2 size={15} style={{ color: '#d4a800' }} />;
   if (n.includes('typescript')) return <FileJson size={15} style={{ color: '#3178c6' }} />;
   if (n.includes('react.js') || n.includes('react native')) return <Atom size={15} style={{ color: '#0fb5d0' }} />;
   if (n.includes('redux')) return <Atom size={15} style={{ color: '#764abc' }} />;
-  // Next.js: white on dark, black on light
-  if (n.includes('next.js')) return <Layers size={15} style={{ color: isLight ? '#111111' : '#ffffff' }} />;
+  // Next.js: uses theme adaptive text color
+  if (n.includes('next.js')) return <Layers size={15} style={{ color: 'var(--text-primary)' }} />;
   if (n.includes('html5') || n.includes('css3')) return <Globe size={15} style={{ color: '#e34f26' }} />;
   if (n.includes('tailwind')) return <Wind size={15} style={{ color: '#0ea5e9' }} />;
   if (n.includes('bootstrap')) return <Layout size={15} style={{ color: '#7952b3' }} />;
@@ -61,9 +66,7 @@ const getSkillIcon = (name: string, isLight: boolean) => {
 
 export default function InteractiveSkills() {
   const [activeTab, setActiveTab] = useState<SkillCategory>('all');
-  const header = useScrollReveal({ threshold: 0.1 });
-  const { theme } = useApp();
-  const isLight = theme === 'light';
+  const { ref: headerRef, isVisible: headerIsVisible } = useScrollReveal({ threshold: 0.1 });
 
   const skills: SkillItem[] = [
     // Languages
@@ -140,8 +143,8 @@ export default function InteractiveSkills() {
         
         {/* Section Header */}
         <div
-          ref={header.ref}
-          className={`${styles.header} reveal reveal-up ${header.isVisible ? 'reveal-visible' : ''}`}
+          ref={headerRef}
+          className={`${styles.header} reveal reveal-up ${headerIsVisible ? 'reveal-visible' : ''}`}
         >
           <div className="pulse-badge">
             <span style={{ color: 'var(--accent)' }}>CAPABILITIES</span>
@@ -179,31 +182,37 @@ export default function InteractiveSkills() {
           >
             {marquee1.length > 0 && (
               <div className={`${styles.marqueeRow} ${styles.rowLeft}`}>
-                {marquee1.map((skill, index) => (
-                  <div
-                    key={`${skill.name}-r1-${index}`}
-                    className={`${styles.skillPill} ${styles[skill.level.toLowerCase()]}`}
-                  >
-                    <span className={styles.iconWrapper}>{getSkillIcon(skill.name, isLight)}</span>
-                    <span className={styles.name}>{skill.name}</span>
-                    <span className={styles.dot} />
-                  </div>
-                ))}
+                {marquee1.map((skill, index) => {
+                  const levelClass = levelClasses[skill.level.toLowerCase()] || '';
+                  return (
+                    <div
+                      key={`${skill.name}-r1-${index}`}
+                      className={`${styles.skillPill} ${levelClass}`}
+                    >
+                      <span className={styles.iconWrapper}>{getSkillIcon(skill.name)}</span>
+                      <span className={styles.name}>{skill.name}</span>
+                      <span className={styles.dot} />
+                    </div>
+                  );
+                })}
               </div>
             )}
 
             {marquee2.length > 0 && (
               <div className={`${styles.marqueeRow} ${styles.rowRight}`}>
-                {marquee2.map((skill, index) => (
-                  <div
-                    key={`${skill.name}-r2-${index}`}
-                    className={`${styles.skillPill} ${styles[skill.level.toLowerCase()]}`}
-                  >
-                    <span className={styles.iconWrapper}>{getSkillIcon(skill.name, isLight)}</span>
-                    <span className={styles.name}>{skill.name}</span>
-                    <span className={styles.dot} />
-                  </div>
-                ))}
+                {marquee2.map((skill, index) => {
+                  const levelClass = levelClasses[skill.level.toLowerCase()] || '';
+                  return (
+                    <div
+                      key={`${skill.name}-r2-${index}`}
+                      className={`${styles.skillPill} ${levelClass}`}
+                    >
+                      <span className={styles.iconWrapper}>{getSkillIcon(skill.name)}</span>
+                      <span className={styles.name}>{skill.name}</span>
+                      <span className={styles.dot} />
+                    </div>
+                  );
+                })}
               </div>
             )}
           </motion.div>

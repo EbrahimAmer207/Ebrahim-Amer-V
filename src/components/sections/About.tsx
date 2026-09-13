@@ -7,8 +7,8 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 import styles from './About.module.css';
 
 export default function About() {
-  const left  = useScrollReveal({ threshold: 0.1 });
-  const right = useScrollReveal({ threshold: 0.1 });
+  const { ref: leftRef, isVisible: leftIsVisible } = useScrollReveal({ threshold: 0.1 });
+  const { ref: rightRef, isVisible: rightIsVisible } = useScrollReveal({ threshold: 0.1 });
 
   return (
     <section id="about" className={styles.section}>
@@ -17,8 +17,8 @@ export default function About() {
 
           {/* Left Column: Personal Story */}
           <div
-            ref={left.ref}
-            className={`${styles.storyWrap} reveal reveal-left ${left.isVisible ? 'reveal-visible' : ''}`}
+            ref={leftRef}
+            className={`${styles.storyWrap} reveal reveal-left ${leftIsVisible ? 'reveal-visible' : ''}`}
           >
             <div className="pulse-badge">
               <span style={{ color: 'var(--accent)' }}>PROFILE</span>
@@ -42,11 +42,11 @@ export default function About() {
             </p>
 
             <div className={styles.focusBlocks}>
-              <div className={`${styles.focusItem} reveal reveal-up reveal-delay-1 ${left.isVisible ? 'reveal-visible' : ''}`}>
+              <div className={`${styles.focusItem} reveal reveal-up reveal-delay-1 ${leftIsVisible ? 'reveal-visible' : ''}`}>
                 <span className={styles.focusLabel}>01 / CLEAN CODE</span>
                 <p className={styles.focusText}>Structuring atomic React file structures with explicit prop types and isolated concerns.</p>
               </div>
-              <div className={`${styles.focusItem} reveal reveal-up reveal-delay-2 ${left.isVisible ? 'reveal-visible' : ''}`}>
+              <div className={`${styles.focusItem} reveal reveal-up reveal-delay-2 ${leftIsVisible ? 'reveal-visible' : ''}`}>
                 <span className={styles.focusLabel}>02 / PERFORMANCE FIRST</span>
                 <p className={styles.focusText}>Optimizing page delivery to maintain perfect scores on Google Core Web Vitals.</p>
               </div>
@@ -55,8 +55,8 @@ export default function About() {
 
           {/* Right Column: Widgets */}
           <div
-            ref={right.ref}
-            className={`${styles.widgetsWrap} reveal reveal-right ${right.isVisible ? 'reveal-visible' : ''}`}
+            ref={rightRef}
+            className={`${styles.widgetsWrap} reveal reveal-right ${rightIsVisible ? 'reveal-visible' : ''}`}
           >
             <LighthouseMeter />
             <GithubActivity />

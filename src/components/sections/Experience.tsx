@@ -6,9 +6,8 @@ import MobileCarousel from '../ui/MobileCarousel';
 import styles from './Experience.module.css';
 
 export default function Experience() {
-  const header = useScrollReveal({ threshold: 0.1 });
-  const left   = useScrollReveal({ threshold: 0.05 });
-  const right  = useScrollReveal({ threshold: 0.05 });
+  const { ref: headerRef, isVisible: headerIsVisible } = useScrollReveal({ threshold: 0.1 });
+  const { ref: leftRef, isVisible: leftIsVisible } = useScrollReveal({ threshold: 0.05 });
 
   const experiences = [
     {
@@ -54,8 +53,8 @@ export default function Experience() {
 
         {/* Section Header */}
         <div
-          ref={header.ref}
-          className={`${styles.header} reveal reveal-up ${header.isVisible ? 'reveal-visible' : ''}`}
+          ref={headerRef}
+          className={`${styles.header} reveal reveal-up ${headerIsVisible ? 'reveal-visible' : ''}`}
         >
           <div className="pulse-badge">
             <span style={{ color: 'var(--accent)' }}>JOURNEY</span>
@@ -67,12 +66,12 @@ export default function Experience() {
         </div>
 
         {/* Timeline Grid – turns into a carousel on mobile */}
-        <div ref={left.ref}>
+        <div ref={leftRef}>
           <MobileCarousel desktopGridClass={styles.grid}>
             
             {/* Left Column: Experience */}
             <div className={styles.column}>
-              <div className={`${styles.columnHeader} reveal reveal-left ${left.isVisible ? 'reveal-visible' : ''}`}>
+              <div className={`${styles.columnHeader} reveal reveal-left ${leftIsVisible ? 'reveal-visible' : ''}`}>
                 <Briefcase size={18} className={styles.columnIcon} />
                 <h3>Professional Training</h3>
               </div>
@@ -81,7 +80,7 @@ export default function Experience() {
                 {experiences.map((exp, idx) => (
                   <div
                     key={idx}
-                    className={`${styles.timelineNode} reveal reveal-left reveal-delay-${idx + 1} ${left.isVisible ? 'reveal-visible' : ''}`}
+                    className={`${styles.timelineNode} reveal reveal-left reveal-delay-${idx + 1} ${leftIsVisible ? 'reveal-visible' : ''}`}
                   >
                     <div className={styles.timelinePoint} />
                     <Card className={styles.timelineCard}>
@@ -106,7 +105,7 @@ export default function Experience() {
 
             {/* Right Column: Education */}
             <div className={styles.column}>
-              <div className={`${styles.columnHeader} reveal reveal-right ${left.isVisible ? 'reveal-visible' : ''}`}>
+              <div className={`${styles.columnHeader} reveal reveal-right ${leftIsVisible ? 'reveal-visible' : ''}`}>
                 <GraduationCap size={20} className={styles.columnIcon} />
                 <h3>Education &amp; Credentials</h3>
               </div>
@@ -115,7 +114,7 @@ export default function Experience() {
                 {education.map((edu, idx) => (
                   <div
                     key={idx}
-                    className={`${styles.timelineNode} reveal reveal-right reveal-delay-${idx + 1} ${left.isVisible ? 'reveal-visible' : ''}`}
+                    className={`${styles.timelineNode} reveal reveal-right reveal-delay-${idx + 1} ${leftIsVisible ? 'reveal-visible' : ''}`}
                   >
                     <div className={styles.timelinePoint} />
                     <Card className={styles.timelineCard}>
