@@ -85,7 +85,7 @@ export default function Contact() {
           className={`${styles.header} reveal reveal-up ${headerIsVisible ? 'reveal-visible' : ''}`}
         >
           <div className="pulse-badge">
-            <span style={{ color: 'var(--accent)' }}>GET IN TOUCH</span>
+            <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>07 / CONTACT &amp; INQUIRIES</span>
           </div>
           <h2 className={`${styles.title} text-gradient`}>Let&rsquo;s Construct Something Great.</h2>
           <p className={styles.subtitle}>

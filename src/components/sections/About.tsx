@@ -21,7 +21,7 @@ export default function About() {
             className={`${styles.storyWrap} reveal reveal-left ${leftIsVisible ? 'reveal-visible' : ''}`}
           >
             <div className="pulse-badge">
-              <span style={{ color: 'var(--accent)' }}>PROFILE</span>
+              <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>04 / STORY &amp; APPROACH</span>
             </div>
             <h2 className={`${styles.title} text-gradient`}>
               Turning Ideas Into High-Performance Code.

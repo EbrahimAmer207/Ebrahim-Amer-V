@@ -29,10 +29,10 @@ export default function Expertise() {
             className={`${styles.header} reveal reveal-up ${headerIsVisible ? 'reveal-visible' : ''}`}
           >
             <div className="pulse-badge">
-              <span style={{ color: 'var(--accent)' }}>DOMAINS</span>
+              <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>02 / CAPABILITIES &amp; EXPERTISE</span>
             </div>
             <h2 className={`${styles.title} text-gradient`}>
-              Technical Expertise &amp; Core Stack.
+              Technical Expertise &amp; Core Capabilities.
             </h2>
             <p className={styles.subtitle}>
               A curated set of technologies and methodologies I rely on to engineer fast,

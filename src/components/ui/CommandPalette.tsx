@@ -33,9 +33,11 @@ export default function CommandPalette() {
   // Reset indices on open
   useEffect(() => {
     if (isCommandPaletteOpen) {
-      setSearch('');
-      setSelectedIndex(0);
-      setTimeout(() => inputRef.current?.focus(), 100);
+      setTimeout(() => {
+        setSearch('');
+        setSelectedIndex(0);
+        inputRef.current?.focus();
+      }, 50);
     }
   }, [isCommandPaletteOpen]);
 
@@ -61,11 +63,11 @@ export default function CommandPalette() {
       action: () => scrollToSection('home'),
     },
     {
-      id: 'nav-about',
-      title: 'Jump to About Me',
+      id: 'nav-projects',
+      title: 'Jump to Featured Projects',
       category: 'Navigation',
       icon: <Compass size={18} />,
-      action: () => scrollToSection('about'),
+      action: () => scrollToSection('projects'),
     },
     {
       id: 'nav-expertise',
@@ -75,11 +77,11 @@ export default function CommandPalette() {
       action: () => scrollToSection('expertise'),
     },
     {
-      id: 'nav-projects',
-      title: 'Jump to Featured Projects',
+      id: 'nav-about',
+      title: 'Jump to About Me',
       category: 'Navigation',
       icon: <Compass size={18} />,
-      action: () => scrollToSection('projects'),
+      action: () => scrollToSection('about'),
     },
     {
       id: 'nav-experience',
@@ -125,7 +127,7 @@ export default function CommandPalette() {
       category: 'Actions',
       icon: <Mail size={18} />,
       action: () => {
-        window.location.href = 'mailto:himaamer937@gmail.com';
+        window.location.assign('mailto:himaamer937@gmail.com');
         setIsCommandPaletteOpen(false);
       },
     },

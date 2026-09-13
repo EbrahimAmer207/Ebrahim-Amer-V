@@ -57,7 +57,7 @@ export default function Experience() {
           className={`${styles.header} reveal reveal-up ${headerIsVisible ? 'reveal-visible' : ''}`}
         >
           <div className="pulse-badge">
-            <span style={{ color: 'var(--accent)' }}>JOURNEY</span>
+            <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>05 / MILESTONES &amp; JOURNEY</span>
           </div>
           <h2 className={`${styles.title} text-gradient`}>Timeline of Development.</h2>
           <p className={styles.subtitle}>

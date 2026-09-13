@@ -16,17 +16,17 @@ export default function Navigation() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
-      // Track active section on scroll
-      const sections = ['home', 'expertise', 'about', 'projects', 'experience', 'contact'];
-      const scrollPos = window.scrollY + 200;
+      // Track active section on scroll using exact page section order
+      const sections = ['home', 'projects', 'expertise', 'about', 'experience', 'contact'];
+      const scrollPos = window.scrollY + 250;
 
-      for (const section of sections) {
-        const el = document.getElementById(section);
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const sectionId = sections[i];
+        const el = document.getElementById(sectionId);
         if (el) {
           const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(section);
+          if (scrollPos >= top) {
+            setActiveSection(sectionId);
             break;
           }
         }
@@ -34,6 +34,7 @@ export default function Navigation() {
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -46,9 +47,9 @@ export default function Navigation() {
 
   const navItems = [
     { id: 'home', label: 'Home' },
+    { id: 'projects', label: 'Projects' },
     { id: 'expertise', label: 'Expertise' },
     { id: 'about', label: 'About' },
-    { id: 'projects', label: 'Projects' },
     { id: 'experience', label: 'Experience' },
     { id: 'contact', label: 'Contact' },
   ];

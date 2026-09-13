@@ -135,18 +135,21 @@ button, input, textarea {
 .text-gradient {
   background: linear-gradient(135deg, #ffffff 30%, rgba(255, 255, 255, 0.6) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 [data-theme="light"] .text-gradient {
   background: linear-gradient(135deg, #111111 30%, #555555 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-accent-gradient {
   background: linear-gradient(135deg, var(--accent) 30%, #0088ff 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -333,8 +336,7 @@ button, input, textarea {
 .reveal-down   { transform: translateY(-32px); }
 .reveal-left   { transform: translateX(-48px); }
 .reveal-right  { transform: translateX(48px); }
-.reveal-scale  { transform: scale(0.92); }
-.reveal-fade   { /* opacity only, no transform */ }
+.reveal-fade   { opacity: 0; }
 
 /* Stagger delays for child items */
 .reveal-delay-1  { transition-delay: 0.10s; }
@@ -420,10 +422,20 @@ footer,
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
 }
 
-[data-theme="light"] [class*="skillPill"]:hover {
-  background: rgba(255, 255, 255, 0.95) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+/* Accessibility: Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
+
 
 
 

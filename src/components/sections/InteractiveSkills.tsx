@@ -147,7 +147,7 @@ export default function InteractiveSkills() {
           className={`${styles.header} reveal reveal-up ${headerIsVisible ? 'reveal-visible' : ''}`}
         >
           <div className="pulse-badge">
-            <span style={{ color: 'var(--accent)' }}>CAPABILITIES</span>
+            <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>06 / TECH STACK &amp; TOOLS</span>
           </div>
           <h2 className={`${styles.title} text-gradient`}>
             Interactive Skill Map.

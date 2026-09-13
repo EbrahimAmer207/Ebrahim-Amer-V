@@ -5,9 +5,10 @@ import { AnimatePresence } from 'framer-motion';
 import Loader from '@/components/layout/Loader';
 import Navigation from '@/components/layout/Navigation';
 import Hero from '@/components/sections/Hero';
-import Expertise from '@/components/sections/Expertise';
-import About from '@/components/sections/About';
 import ProjectShowcase from '@/components/sections/ProjectShowcase';
+import Expertise from '@/components/sections/Expertise';
+import Process from '@/components/sections/Process';
+import About from '@/components/sections/About';
 import Experience from '@/components/sections/Experience';
 import InteractiveSkills from '@/components/sections/InteractiveSkills';
 import Availability from '@/components/sections/Availability';
@@ -51,9 +52,10 @@ export default function Home() {
           {/* Scrolling Section Stack */}
           <main style={{ position: 'relative', zIndex: 2 }}>
             <Hero />
-            <Expertise />
-            <About />
             <ProjectShowcase />
+            <Expertise />
+            <Process />
+            <About />
             <Experience />
             <InteractiveSkills />
             <Availability />

@@ -105,26 +105,26 @@ export default function Hero() {
             className={styles.actions}
           >
             <Button variant="primary" onClick={() => scrollTo('projects')}>
-              Explore Work
+              <span>View Selected Work</span>
               <ArrowRight size={16} style={{ marginLeft: '0.4rem', display: 'inline-block', verticalAlign: 'middle' }} />
             </Button>
             <Button variant="secondary" onClick={() => scrollTo('contact')}>
-              Let&rsquo;s Connect
+              <span>Let&rsquo;s Connect</span>
               <Sparkles size={14} style={{ marginLeft: '0.4rem', display: 'inline-block', verticalAlign: 'middle', color: 'var(--accent)' }} />
             </Button>
             <a href="/Files/Ebrahim_Amer_CV.pdf" download="Ebrahim_Amer_CV.pdf" style={{ textDecoration: 'none' }}>
-              <Button variant="secondary">
-                Download CV
-                <Download size={14} style={{ marginLeft: '0.4rem', display: 'inline-block', verticalAlign: 'middle' }} />
+              <Button variant="minimal">
+                <span>Download CV</span>
+                <Download size={14} style={{ marginLeft: '0.3rem', display: 'inline-block', verticalAlign: 'middle' }} />
               </Button>
             </a>
           </motion.div>
 
-          {/* Proof stats */}
+          {/* Proof Strip */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.1 }}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 1.05 }}
             className={styles.proofs}
           >
             {proofItems.map((item, i) => (

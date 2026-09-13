@@ -5,12 +5,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card } from '../ui/Card';
 import { projectsData } from '@/data/projectsData';
-import { ArrowUpRight, GitBranch, ExternalLink } from 'lucide-react';
+import { ArrowUpRight, GitBranch, ExternalLink, Lock, Zap, ShieldCheck } from 'lucide-react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import MobileCarousel from '../ui/MobileCarousel';
 import styles from './ProjectShowcase.module.css';
 
-// We map the images from the copied asset folder
+// Image mapping
 const projectImages: Record<string, string> = {
   'luxe-ecommerce': '/Img/luxe-ecommerce.png',
   'supabase-portfolio': '/Img/supabase-portfolio.png',
@@ -20,7 +20,17 @@ const projectImages: Record<string, string> = {
   'nimbus-weather': '/Img/we.png',
 };
 
-// Define all other archive projects from the old portfolio data
+// Clean display URLs for browser mockup pills
+const projectUrls: Record<string, string> = {
+  'luxe-ecommerce': 'luxe-fashion.vercel.app',
+  'supabase-portfolio': 'ebrahim-amer.vercel.app',
+  'aetheria-estate': 'aetheria-estate.app',
+  'apex-ecommerce': 'fake-store.vercel.app',
+  'nexus-dashboard': 'dashboard.vercel.app',
+  'nimbus-weather': 'weather-client.app',
+};
+
+// Archive client projects data
 const archiveProjects = [
   {
     title: 'Pato Restaurant',
@@ -72,7 +82,7 @@ export default function ProjectShowcase() {
           className={`${styles.header} reveal reveal-up ${headerIsVisible ? 'reveal-visible' : ''}`}
         >
           <div className="pulse-badge">
-            <span style={{ color: 'var(--accent)' }}>CASE STUDIES</span>
+            <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>01 / SELECTED WORK</span>
           </div>
           <h2 className={`${styles.title} text-gradient`}>
             Selected Engineering Builds.
@@ -83,9 +93,24 @@ export default function ProjectShowcase() {
 
           {/* Filter Tabs */}
           <div className={styles.tabs}>
-            <button className={`${styles.tab} ${filter === 'all' ? styles.activeTab : ''}`} onClick={() => setFilter('all')}>All Builds</button>
-            <button className={`${styles.tab} ${filter === 'featured' ? styles.activeTab : ''}`} onClick={() => setFilter('featured')}>Featured Case Studies</button>
-            <button className={`${styles.tab} ${filter === 'archive' ? styles.activeTab : ''}`} onClick={() => setFilter('archive')}>Client Projects</button>
+            <button
+              className={`${styles.tab} ${filter === 'all' ? styles.activeTab : ''}`}
+              onClick={() => setFilter('all')}
+            >
+              All Builds
+            </button>
+            <button
+              className={`${styles.tab} ${filter === 'featured' ? styles.activeTab : ''}`}
+              onClick={() => setFilter('featured')}
+            >
+              Featured Case Studies
+            </button>
+            <button
+              className={`${styles.tab} ${filter === 'archive' ? styles.activeTab : ''}`}
+              onClick={() => setFilter('archive')}
+            >
+              Client Projects
+            </button>
           </div>
         </div>
 
@@ -95,6 +120,7 @@ export default function ProjectShowcase() {
             <MobileCarousel desktopGridClass={styles.featuredGrid}>
               {projectsData.map((project) => {
                 const imagePath = projectImages[project.slug] || '/Img/port.png';
+                const displayUrl = projectUrls[project.slug] || 'demo.vercel.app';
                 
                 return (
                   <div
@@ -105,7 +131,20 @@ export default function ProjectShowcase() {
                     <Link href={`/projects/${project.slug}`} className={styles.linkWrapper}>
                       <Card className={styles.projectCard} style={{ height: '100%' }}>
                         
-                        {/* Image Preview frame */}
+                        {/* Chrome Header Bar */}
+                        <div className={styles.cardChrome}>
+                          <div className={styles.chromeDots}>
+                            <span className={`${styles.dot} ${styles.dotRed}`} />
+                            <span className={`${styles.dot} ${styles.dotYellow}`} />
+                            <span className={`${styles.dot} ${styles.dotGreen}`} />
+                          </div>
+                          <div className={styles.chromeUrl}>
+                            <Lock size={10} style={{ color: '#10b981' }} />
+                            <span>{displayUrl}</span>
+                          </div>
+                        </div>
+
+                        {/* Image Preview Frame with clean aspect ratio */}
                         <div className={styles.imgFrame}>
                           <Image
                             src={imagePath}
@@ -116,21 +155,24 @@ export default function ProjectShowcase() {
                           />
                           <div className={styles.hoverMask}>
                             <span className={styles.maskText}>Read Case Study</span>
-                            <ArrowUpRight size={20} />
+                            <ArrowUpRight size={18} />
                           </div>
                         </div>
 
-                        {/* Info and stats footer */}
+                        {/* Info Body */}
                         <div className={styles.info}>
                           <div className={styles.metaRow}>
-                            <span className={styles.category}>{project.category}</span>
-                            <div className={styles.metrics}>
-                              {project.metrics.slice(0, 2).map((m, idx) => (
-                                <span key={idx} className={styles.metric}>
-                                  {m.label}: <strong>{m.value}</strong>
-                                </span>
-                              ))}
-                            </div>
+                            <span className={styles.category}>
+                              <span className={styles.categoryDot} />
+                              {project.category}
+                            </span>
+
+                            {project.metrics && project.metrics.length > 0 && (
+                              <span className={styles.metricBadge}>
+                                <Zap size={11} style={{ color: 'var(--accent)' }} />
+                                {project.metrics[0].value}
+                              </span>
+                            )}
                           </div>
 
                           <h3 className={styles.projectTitle}>{project.title}</h3>
@@ -143,6 +185,11 @@ export default function ProjectShowcase() {
                               </span>
                             ))}
                           </div>
+
+                          <div className={styles.cardFooter}>
+                            <span className={styles.ctaText}>Explore Case Study</span>
+                            <ArrowUpRight size={16} className={styles.ctaArrow} />
+                          </div>
                         </div>
 
                       </Card>
@@ -154,13 +201,17 @@ export default function ProjectShowcase() {
           </div>
         )}
 
-        {/* Archive / Secondary Grid */}
+        {/* Archive / Client Projects Grid */}
         {(filter === 'all' || filter === 'archive') && (
           <div ref={archiveRef} className={styles.archiveWrapper}>
-            {(filter === 'archive') && <h3 className={styles.archiveHeader}>Client Prototypes</h3>}
+            {filter === 'archive' && <h3 className={styles.archiveHeader}>Client Prototypes</h3>}
             <MobileCarousel desktopGridClass={styles.archiveGrid}>
               {archiveProjects.map((proj, index) => (
-                <Card key={index} className={`${styles.archiveCard} reveal reveal-up reveal-delay-${(index % 4) + 1} ${archiveIsVisible ? 'reveal-visible' : ''}`} style={{ height: '100%' }}>
+                <Card
+                  key={index}
+                  className={`${styles.archiveCard} reveal reveal-up reveal-delay-${(index % 4) + 1} ${archiveIsVisible ? 'reveal-visible' : ''}`}
+                  style={{ height: '100%' }}
+                >
                   <div className={styles.archImgFrame}>
                     <Image
                       src={proj.image}
@@ -175,7 +226,9 @@ export default function ProjectShowcase() {
                     <p className={styles.archDesc}>{proj.desc}</p>
                     <div className={styles.archTech}>
                       {proj.tech.map((t) => (
-                        <span key={t} className={styles.archTag}>{t}</span>
+                        <span key={t} className={styles.archTag}>
+                          {t}
+                        </span>
                       ))}
                     </div>
                     <div className={styles.archLinks}>
