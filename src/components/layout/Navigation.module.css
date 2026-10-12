@@ -4,19 +4,37 @@
   left: 0;
   width: 100%;
   z-index: 99;
-  padding: 1.5rem 0;
-  transition: var(--transition-smooth);
+  padding: 1.25rem 0;
+  transition: padding 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateZ(0);
+  will-change: padding;
+}
+
+/* Glassmorphism background & subtle border on dedicated GPU layer */
+.nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(5, 5, 5, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-color);
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+[data-theme="light"] .nav::before {
+  background: rgba(250, 250, 250, 0.82);
 }
 
 .scrolled {
   padding: 0.85rem 0;
-  background: rgba(5, 5, 5, 0.7);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-color);
 }
 
-[data-theme="light"] .scrolled {
-  background: rgba(250, 250, 250, 0.75);
+.scrolled::before {
+  opacity: 1;
 }
 
 .container {

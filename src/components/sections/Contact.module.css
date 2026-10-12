@@ -117,6 +117,11 @@
   background: var(--bg-hover);
 }
 
+[data-theme="light"] .copyBtn {
+  background: var(--card-inner-bg);
+  border-color: var(--card-inner-border);
+}
+
 .checkIcon {
   color: #10b981;
 }
@@ -138,6 +143,12 @@
   border: 1px solid var(--border-color);
   color: var(--text-secondary);
   transition: var(--transition-fast);
+}
+
+[data-theme="light"] .socialBadge {
+  background: var(--card-bg);
+  border-color: var(--card-border);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
 .socialBadge:hover {

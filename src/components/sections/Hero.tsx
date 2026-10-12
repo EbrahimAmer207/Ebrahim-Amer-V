@@ -112,7 +112,7 @@ export default function Hero() {
               <span>Let&rsquo;s Connect</span>
               <Sparkles size={14} style={{ marginLeft: '0.4rem', display: 'inline-block', verticalAlign: 'middle', color: 'var(--accent)' }} />
             </Button>
-            <a href="/Files/Ebrahim_Amer_CV.pdf" download="Ebrahim_Amer_CV.pdf" style={{ textDecoration: 'none' }}>
+            <a href="/Files/EBRAHIM_ABDELMONEM_CV.pdf" download="Ebrahim_Amer_CV.pdf" style={{ textDecoration: 'none' }}>
               <Button variant="minimal">
                 <span>Download CV</span>
                 <Download size={14} style={{ marginLeft: '0.3rem', display: 'inline-block', verticalAlign: 'middle' }} />

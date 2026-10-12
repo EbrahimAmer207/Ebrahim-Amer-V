@@ -109,6 +109,11 @@
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
 }
 
+[data-theme="light"] .heroImgFrame {
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.12);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
 .heroImg {
   width: 100%;
   height: 100%;

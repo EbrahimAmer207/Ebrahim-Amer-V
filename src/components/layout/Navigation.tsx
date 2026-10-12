@@ -13,27 +13,36 @@ export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const isScrolled = window.scrollY > 30;
+          setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
 
-      // Track active section on scroll using exact page section order
-      const sections = ['home', 'projects', 'expertise', 'about', 'experience', 'contact'];
-      const scrollPos = window.scrollY + 250;
+          // Track active section on scroll using exact page section order
+          const sections = ['home', 'projects', 'expertise', 'about', 'experience', 'contact'];
+          const scrollPos = window.scrollY + 250;
 
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const sectionId = sections[i];
-        const el = document.getElementById(sectionId);
-        if (el) {
-          const top = el.offsetTop;
-          if (scrollPos >= top) {
-            setActiveSection(sectionId);
-            break;
+          for (let i = sections.length - 1; i >= 0; i--) {
+            const sectionId = sections[i];
+            const el = document.getElementById(sectionId);
+            if (el) {
+              const top = el.offsetTop;
+              if (scrollPos >= top) {
+                setActiveSection((prev) => (prev !== sectionId ? sectionId : prev));
+                break;
+              }
+            }
           }
-        }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);

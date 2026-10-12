@@ -4,7 +4,7 @@ import React from 'react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
-import { Code, GraduationCap, Briefcase, ArrowRight, CheckCircle } from 'lucide-react';
+import { Code, GraduationCap, Briefcase, ArrowRight } from 'lucide-react';
 import styles from './Availability.module.css';
 
 export default function Availability() {
@@ -73,17 +73,16 @@ export default function Availability() {
               <div className={styles.cardHeader}>
                 <div className={styles.iconContainer}>{opt.icon}</div>
                 <div className={styles.statusBadge}>
-                  <CheckCircle size={12} style={{ marginRight: '0.35rem', flexShrink: 0 }} />
-                  {opt.status}
+                  <span className={styles.pulseDot} />
+                  <span>{opt.status}</span>
                 </div>
               </div>
               
               <h3 className={styles.cardTitle}>{opt.role}</h3>
               <p className={styles.cardDesc}>{opt.desc}</p>
               
-              <div className={styles.cardFooter}>
-                <span className={styles.specLabel}>Preferences</span>
-                <span className={styles.specValue}>{opt.spec}</span>
+              <div className={styles.cardMeta}>
+                <span className={styles.metaChip}>{opt.spec}</span>
               </div>
             </Card>
           ))}

@@ -38,140 +38,174 @@
   display: flex;
   flex-direction: column;
   padding: 2.25rem 2rem;
-  border: 1px solid var(--border-color);
-  background: rgba(10, 10, 15, 0.45);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 18px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.4s ease, 
+              box-shadow 0.4s ease, 
+              background 0.4s ease;
   position: relative;
   overflow: hidden;
 }
 
 [data-theme="light"] .card {
-  background: rgba(255, 255, 255, 0.75);
-  border-color: rgba(0, 0, 0, 0.07);
-}
-
-[data-theme="light"] .ctaBanner {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(0, 0, 0, 0.07);
+  background: var(--card-bg);
+  border-color: var(--card-border);
+  box-shadow: var(--card-shadow);
 }
 
 .cardHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .iconContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-color);
-  transition: transform 0.3s ease;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  transition: transform 0.35s ease;
 }
 
 .card:hover .iconContainer {
-  transform: scale(1.08) rotate(3deg);
+  transform: scale(1.1) rotate(4deg);
 }
 
 .statusBadge {
   display: inline-flex;
   align-items: center;
-  padding: 0.35rem 0.8rem;
+  gap: 0.5rem;
+  padding: 0.25rem 0.65rem;
   border-radius: 100px;
   font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  font-weight: 600;
   color: #10b981;
   background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+[data-theme="light"] .statusBadge {
+  color: #059669;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.pulseDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+[data-theme="light"] .pulseDot {
+  background: #059669;
+  box-shadow: 0 0 6px #059669;
 }
 
 .cardTitle {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--text-primary);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   margin-bottom: 0.75rem;
+  line-height: 1.3;
 }
 
 .cardDesc {
   font-size: 0.9rem;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.65;
   flex-grow: 1;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
 }
 
-.cardFooter {
+.cardMeta {
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--border-color);
+  align-items: center;
+  margin-top: auto;
 }
 
-.specLabel {
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
+.metaChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.775rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
   color: var(--text-secondary);
-  letter-spacing: 0.05em;
+  opacity: 0.85;
+  transition: opacity 0.25s ease, color 0.25s ease;
 }
 
-.specValue {
-  font-size: 0.85rem;
-  font-weight: 600;
+.card:hover .metaChip {
   color: var(--text-primary);
+  opacity: 1;
 }
 
 /* Glowing Border Styles */
 .blueGlow {
-  border-color: rgba(0, 212, 255, 0.12);
+  border-color: rgba(0, 212, 255, 0.15);
 }
 .blueGlow:hover {
-  border-color: rgba(0, 212, 255, 0.4) !important;
-  box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(0, 212, 255, 0.08) !important;
+  border-color: rgba(0, 212, 255, 0.5) !important;
+  box-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.65), 0 0 25px rgba(0, 212, 255, 0.15) !important;
   transform: translateY(-5px);
+}
+[data-theme="light"] .blueGlow:hover {
+  border-color: rgba(2, 132, 199, 0.5) !important;
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.08), 0 0 25px rgba(2, 132, 199, 0.18) !important;
 }
 .iconBlue {
   color: #00D4FF;
 }
+[data-theme="light"] .iconBlue {
+  color: #0284c7;
+}
 
 .greenGlow {
-  border-color: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.15);
 }
 .greenGlow:hover {
-  border-color: rgba(16, 185, 129, 0.4) !important;
-  box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(16, 185, 129, 0.08) !important;
+  border-color: rgba(16, 185, 129, 0.5) !important;
+  box-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.65), 0 0 25px rgba(16, 185, 129, 0.15) !important;
   transform: translateY(-5px);
+}
+[data-theme="light"] .greenGlow:hover {
+  border-color: rgba(16, 185, 129, 0.5) !important;
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.08), 0 0 25px rgba(16, 185, 129, 0.18) !important;
 }
 .iconGreen {
   color: #10b981;
 }
+[data-theme="light"] .iconGreen {
+  color: #059669;
+}
 
 .amberGlow {
-  border-color: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.15);
 }
 .amberGlow:hover {
-  border-color: rgba(245, 158, 11, 0.4) !important;
-  box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(245, 158, 11, 0.08) !important;
+  border-color: rgba(245, 158, 11, 0.5) !important;
+  box-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.65), 0 0 25px rgba(245, 158, 11, 0.15) !important;
   transform: translateY(-5px);
+}
+[data-theme="light"] .amberGlow:hover {
+  border-color: rgba(217, 119, 6, 0.5) !important;
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.08), 0 0 25px rgba(217, 119, 6, 0.18) !important;
 }
 .iconAmber {
   color: #f59e0b;
+}
+[data-theme="light"] .iconAmber {
+  color: #d97706;
 }
 
 .ctaBanner {
@@ -179,10 +213,19 @@
   justify-content: space-between;
   align-items: center;
   padding: 2.25rem 3rem;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.01);
-  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   margin-top: 2rem;
+}
+
+[data-theme="light"] .ctaBanner {
+  background: var(--card-bg);
+  border-color: var(--card-border);
+  box-shadow: var(--card-shadow);
 }
 
 .ctaBanner p {
