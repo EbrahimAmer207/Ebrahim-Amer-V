@@ -18,16 +18,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('dark');
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
-  // Sync theme with HTML data attribute
+  // Sync theme with HTML data attribute and saved preference
   useEffect(() => {
-    const savedTheme = localStorage.getItem('ebrahim-theme') as Theme;
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    } else {
+    const savedTheme = localStorage.getItem('ebrahim-theme') as Theme | null;
+    if (savedTheme && savedTheme !== theme) {
+      queueMicrotask(() => {
+        setTheme(savedTheme);
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      });
+    } else if (!savedTheme) {
       document.documentElement.setAttribute('data-theme', 'dark');
     }
-  }, []);
+  }, [theme]);
 
   const toggleTheme = () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';

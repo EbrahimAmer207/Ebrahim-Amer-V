@@ -1,24 +1,22 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 export default function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [prevPath, setPrevPath] = useState(pathname);
   const [animKey, setAnimKey] = useState(0);
 
-  useEffect(() => {
-    // When the path changes, increment our key to trigger a fresh curtain swipe animation.
-    // Avoid triggering on the very first page load (when animKey is 0) to let the main Loader run cleanly.
-    setAnimKey((prev) => prev + 1);
-  }, [pathname]);
+  // When the path changes, increment our key during render to trigger curtain swipe
+  // (Avoids triggering on initial mount so Loader can complete cleanly)
+  if (prevPath !== pathname) {
+    setPrevPath(pathname);
+    setAnimKey(animKey + 1);
+  }
 
   return (
     <>
-      {/* 
-        This div will receive a new key and the active animation class 
-        whenever pathname changes, forcing a hardware-accelerated CSS scale swipe.
-      */}
       <div
         key={animKey}
         className={`curtain-overlay ${animKey > 0 ? 'curtain-overlay-active' : ''}`}

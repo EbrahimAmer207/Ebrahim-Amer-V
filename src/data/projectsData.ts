@@ -1,23 +1,190 @@
+export interface ProjectMetric {
+  label: string;
+  value: string;
+}
+
+export interface ProjectStory {
+  problem: string;
+  solution: string;
+  result: string;
+}
+
+export interface ProjectScreenshot {
+  src: string;
+  caption: string;
+}
+
 export interface Project {
   slug: string;
   title: string;
   category: string;
   demoUrl: string;
   codeUrl: string;
+  isPrivateCode?: boolean;
+  brandNameArabic?: string;
   description: string;
   longDescription: string;
   tech: string[];
-  metrics: { label: string; value: string }[];
-  story: {
-    problem: string;
-    solution: string;
-    result: string;
-  };
+  metrics: ProjectMetric[];
+  story: ProjectStory;
   challenges: string[];
   outcomes: string[];
+  screenshots?: ProjectScreenshot[];
 }
 
 export const projectsData: Project[] = [
+  // ── Primary 3 Commercial Company Projects ────────────────────────────────
+  {
+    slug: 'growfet',
+    title: 'Growfet — EdTech Academy Platform',
+    category: 'EdTech Academy Platform',
+    demoUrl: 'https://www.growfet.com/',
+    codeUrl: '',
+    isPrivateCode: true,
+    description: 'An educational academy platform built to present training programs, showcase trainees and graduates, and provide interactive interfaces for managing trainee-related information.',
+    longDescription: 'Growfet is an educational academy platform built to present training programs, showcase trainees and graduates, and provide interactive interfaces for managing trainee-related information. Migrated from a legacy architecture to a modern React 19 and Vite application with bilingual Arabic/English routing and responsive trainee showcases.',
+    tech: [
+      'React 19',
+      'JavaScript ES6+',
+      'Vite',
+      'React Router',
+      'TanStack Query',
+      'Bootstrap 5',
+      'CSS Modules',
+      'Dynamic SEO',
+    ],
+    metrics: [
+      { label: 'Architecture', value: 'React 19 + Vite' },
+      { label: 'Localization', value: 'Arabic & English' },
+      { label: 'State Sync', value: 'TanStack Query' },
+      { label: 'Deployment', value: 'Production Live' },
+    ],
+    story: {
+      problem: 'The legacy website struggled with monolithic legacy code that complicated feature development, lacked structured internationalization between Arabic and English, and provided no streamlined mechanism for trainees or staff to browse graduate profiles and program data efficiently.',
+      solution: 'Engineered a modular React 19 architecture powered by Vite with feature-based directory organization. Developed dual-direction (RTL/LTR) routing with language-aware UI components, implemented TanStack Query for caching and asynchronous data fetching, and built interactive trainee showcases with dynamic modals and administrative controls.',
+      result: 'A resilient, high-speed academy portal deployed to production, delivering seamless bilingual navigation, rapid profile discovery, and a clean administrative interface for managing trainee information.',
+    },
+    challenges: [
+      'Migrating legacy views into modular, reusable React 19 components without disrupting live academy registrations or SEO rank.',
+      'Architecting bidirectional layouts supporting seamless Arabic (RTL) and English (LTR) typography, navigation flows, and layout mirroring.',
+      'Designing interactive trainee showcase modals and admin forms with live status controls and image previews while maintaining optimal performance.',
+    ],
+    outcomes: [
+      'Migrated the legacy website to a modular React 19 and Vite application using reusable components and feature-based architecture.',
+      'Implemented bilingual Arabic/English routing with RTL/LTR support and language-aware navigation.',
+      'Developed interactive trainee showcases, searchable graduate profiles, and reusable detail modals.',
+      'Built front-end administrative dashboard interfaces for trainee management, including forms, status controls, and image previews.',
+      'Implemented custom browser-based animations and responsive layouts.',
+      'Developed dynamic SEO metadata and structured data support for localized routes.',
+    ],
+    screenshots: [
+      {
+        src: '/Img/image copy.png',
+        caption: 'Growfet Academy bilingual landing interface and program offerings showcase.',
+      },
+    ],
+  },
+  {
+    slug: 'rashet-etr',
+    title: 'Rashet Etr — Luxury Fragrance E-Commerce',
+    brandNameArabic: 'رشة عطر',
+    category: 'Luxury Fragrance E-Commerce',
+    demoUrl: 'https://rashet-etr.growfet.com/',
+    codeUrl: '',
+    isPrivateCode: true,
+    description: 'An Arabic fragrance e-commerce storefront focused on premium product presentation, RTL usability, product discovery, and a streamlined shopping experience.',
+    longDescription: 'Rashet Etr (رشة عطر) is an Arabic fragrance e-commerce storefront focused on premium product presentation, RTL usability, product discovery, and a streamlined shopping experience. Migrated from a legacy Vanilla JavaScript storefront to React 19 and Vite, featuring in-browser SQLite WebAssembly, persistent IndexedDB cart storage, touch-friendly Swiper carousels, and an Arabic RTL interface.',
+    tech: [
+      'React 19',
+      'JavaScript ES6+',
+      'Vite',
+      'Swiper',
+      'SQLite WASM',
+      'IndexedDB',
+      'CSS Modules',
+      'Arabic RTL Design',
+    ],
+    metrics: [
+      { label: 'In-Browser DB', value: 'SQLite WASM' },
+      { label: 'Storage Layer', value: 'IndexedDB Sync' },
+      { label: 'Direction', value: 'Arabic RTL First' },
+      { label: 'Deployment', value: 'Production Live' },
+    ],
+    story: {
+      problem: 'The legacy Vanilla JavaScript storefront was difficult to scale, lacked robust client-side state persistence, and suffered from latency during product filtering. Additionally, fragile mobile cart handling caused lost sessions during intermittent connectivity.',
+      solution: 'Re-architected the store into a component-driven React 19 and Vite application. Integrated SQLite WebAssembly directly into the browser thread with an IndexedDB persistence layer for instant catalog querying and cart retention, paired with fluid touch carousels and an Arabic RTL-first checkout funnel.',
+      result: 'A production-ready luxury storefront delivering zero-latency catalog filtering, offline network status feedback, seamless Arabic typographic rhythm, and a frictionless multi-step checkout flow.',
+    },
+    challenges: [
+      'Integrating and querying SQLite WebAssembly in the browser environment with persistent IndexedDB backing while maintaining minimal bundle footprint.',
+      'Crafting a high-end editorial fragrance aesthetic with native Arabic RTL spacing, typography, and touch-friendly interactive carousels.',
+      'Architecting a multi-step checkout funnel with cart state preservation across network drops and browser refreshes.',
+    ],
+    outcomes: [
+      'Migrated a legacy Vanilla JavaScript storefront to React 19 and Vite using reusable components and feature-based modules.',
+      'Developed interactive product filtering, shopping cart functionality, and a multi-step checkout flow.',
+      'Integrated SQLite WebAssembly for in-browser database operations and local product and shopping data persistence.',
+      'Implemented offline network-status feedback and touch-friendly product carousels.',
+      'Delivered an Arabic RTL interface with localized typography and currency presentation.',
+    ],
+    screenshots: [
+      {
+        src: '/Img/image.png',
+        caption: 'Rashet Etr luxury fragrance storefront with Arabic RTL layout, category discovery, and Swiper carousels.',
+      },
+    ],
+  },
+  {
+    slug: 'growfet-tech',
+    title: 'Growfet Tech — Digital Services Platform',
+    category: 'Digital Services Platform',
+    demoUrl: 'https://tech.growfet.com/',
+    codeUrl: '',
+    isPrivateCode: true,
+    description: 'A digital services platform designed to present technical services, showcase projects, and provide interactive tools that help potential clients explore service options.',
+    longDescription: 'Growfet Tech is a digital services platform designed to present technical services, showcase projects, and provide interactive tools that help potential clients explore service options. Built with a modular React 19 and TypeScript architecture, custom CSS design tokens, a keyboard-driven command palette, an interactive project cost estimator, and Google Analytics 4.',
+    tech: [
+      'React 19',
+      'TypeScript',
+      'Vite',
+      'CSS Modules',
+      'CSS Design Tokens',
+      'Command Palette',
+      'Google Analytics 4',
+      'Lead Generation',
+    ],
+    metrics: [
+      { label: 'Core Stack', value: 'React 19 + TypeScript' },
+      { label: 'Styling Engine', value: 'CSS Design Tokens' },
+      { label: 'Interactive Tools', value: 'Estimator & Palette' },
+      { label: 'Deployment', value: 'Production Live' },
+    ],
+    story: {
+      problem: 'Digital service agencies often rely on static brochures that fail to engage technical buyers or clarify project scopes, while heavy third-party UI component libraries degrade page performance and hinder bespoke brand identity.',
+      solution: 'Constructed a lightweight, modular React 19 and TypeScript platform using pure CSS Modules and custom design tokens. Built interactive client tools including a keyboard-driven command palette, project showcase modals, and a dynamic real-time project cost estimator connected to automated WhatsApp lead channels and Google Analytics 4.',
+      result: 'A high-performance digital services platform enabling prospective clients to dynamically calculate project scope costs, navigate portfolios via keyboard shortcuts, and convert into qualified leads effortlessly.',
+    },
+    challenges: [
+      'Engineering a comprehensive, fully responsive design token architecture without relying on external UI component frameworks.',
+      'Developing real-time estimation math that accurately adjusts pricing formulas based on multi-variable client selections.',
+      'Implementing power-user keyboard navigation through a custom command palette while maintaining seamless mobile touch compatibility.',
+    ],
+    outcomes: [
+      'Developed a modular React and TypeScript architecture with reusable UI components and custom design tokens.',
+      'Built interactive features, including a keyboard-driven command palette, project showcase modals, and a dynamic project cost estimator.',
+      'Implemented custom UI interactions and responsive navigation.',
+      'Integrated Google Analytics 4, WhatsApp-based lead generation, and dynamic SEO metadata.',
+      'Applied lightweight styling and component patterns without relying on third-party UI frameworks.',
+    ],
+    screenshots: [
+      {
+        src: '/Img/image copy 2.png',
+        caption: 'Growfet Tech digital services hero and interactive dynamic branding canvas.',
+      },
+    ],
+  },
+
+  // ── Additional Engineering Builds (View More) ───────────────────────────
   {
     slug: 'luxe-ecommerce',
     title: 'LUXE E-Commerce',
@@ -48,36 +215,11 @@ export const projectsData: Project[] = [
       'Designed responsive skeleton loading components to match every product card shape, reducing CLS to 0.01.',
       'Configured dynamic XML sitemap generation and semantic meta schemas to maximize search index rankings.',
     ],
-  },
-  {
-    slug: 'supabase-portfolio',
-    title: 'Supabase Portfolio CMS',
-    category: 'Fullstack React Development',
-    demoUrl: 'https://ebrahim-amer.vercel.app/',
-    codeUrl: 'https://github.com/EbrahimAmer207/Ebrahim-Amer',
-    description: 'An interactive portfolio platform powered by React, Vite, and Supabase, featuring a live admin dashboard, JWT auth, PostgreSQL database, and command palette navigation.',
-    longDescription: 'This is a high-performance personal portfolio architecture integrated with a complete admin dashboard. It enables real-time content editing, dynamic project/skill management, and instant cloud database synchronization on Supabase PostgreSQL without writing code or redeploying.',
-    tech: ['React.js', 'Vite', 'Supabase (BaaS)', 'PostgreSQL', 'JWT Auth', 'Bootstrap 5', 'Command Palette', 'CSS Modules'],
-    metrics: [
-      { label: 'Database sync latency', value: '< 8ms' },
-      { label: 'Admin JWT duration', value: 'Secure' },
-      { label: 'Command response time', value: '< 10ms' },
-      { label: 'CSS bundle size', value: '24kb' },
-    ],
-    story: {
-      problem: 'Traditional portfolio sites require developers to manually edit source code and rebuild/redeploy the entire site just to update a project description or add a new skill.',
-      solution: 'Engineered a client-side React portfolio hooked up to a remote Supabase PostgreSQL database. Developed an authentication gate and a private dashboard for WYSIWYG editing, enabling real-time content updates.',
-      result: 'An interactive, dynamic portfolio platform that saves content changes instantly, syncs globally in milliseconds, and allows navigation via a keyboard-driven Command Palette.',
-    },
-    challenges: [
-      'Securing content routes on the client side using robust auth state validation gates.',
-      'Designing a dynamic database schema to store nested arrays (skills, timeline, achievements) in a clean, queryable format.',
-      'Managing complex form validation and automatic draft saving within the admin dashboard.',
-    ],
-    outcomes: [
-      'Built a secure authentication gate using JWT and Supabase User sessions.',
-      'Designed a keyboard-friendly command palette interface allowing instant routing across sections.',
-      'Implemented an automatic real-time sync model that updates the public portfolio instantly upon dashboard saving.',
+    screenshots: [
+      {
+        src: '/Img/luxe-ecommerce.png',
+        caption: 'LUXE luxury fashion storefront with high-performance product discovery.',
+      },
     ],
   },
   {
@@ -110,6 +252,12 @@ export const projectsData: Project[] = [
       'Reduced initial paint times by lazy-loading non-critical card images using intersection observers.',
       'Implemented robust client-side validation for contact forms, lowering API submission failures to near zero.',
     ],
+    screenshots: [
+      {
+        src: '/Img/4.png',
+        caption: 'Aetheria Estate luxury real estate discovery interface.',
+      },
+    ],
   },
   {
     slug: 'apex-ecommerce',
@@ -140,6 +288,12 @@ export const projectsData: Project[] = [
       'Established precise layout skeletons that mimic product cards, keeping layout shifts at absolute zero.',
       'Developed custom client-side search logic that filters catalog products locally, eliminating API round-trips for search actions.',
       'Integrated accessible ARIA roles and labels across all checkout inputs.',
+    ],
+    screenshots: [
+      {
+        src: '/Img/fake.png',
+        caption: 'Apex E-Commerce responsive product catalog and checkout.',
+      },
     ],
   },
   {
@@ -172,6 +326,12 @@ export const projectsData: Project[] = [
       'Secured error-free forms by implementing custom regex pattern validators.',
       'Ensured complete keyboard navigation support across all CRUD options.',
     ],
+    screenshots: [
+      {
+        src: '/Img/Dash.png',
+        caption: 'Nexus Admin Dashboard management console and metrics visualization.',
+      },
+    ],
   },
   {
     slug: 'nimbus-weather',
@@ -202,6 +362,12 @@ export const projectsData: Project[] = [
       'Developed lightweight, GPU-accelerated CSS animations for wind and rain symbols.',
       'Implemented robust fallback flows using IP-based location queries when GPS access is blocked.',
       'Reduced script weight by avoiding external libraries, relying purely on native ES6 fetch.',
+    ],
+    screenshots: [
+      {
+        src: '/Img/we.png',
+        caption: 'Nimbus Weather Client meteorological forecast view.',
+      },
     ],
   },
 ];

@@ -17,7 +17,10 @@ import {
   Binary, 
   Gauge, 
   Cpu, 
-  Workflow 
+  Workflow,
+  Sparkles,
+  ShieldCheck,
+  Zap
 } from 'lucide-react';
 import styles from './InteractiveSkills.module.css';
 
@@ -27,6 +30,14 @@ interface SkillItem {
   name: string;
   category: Exclude<SkillCategory, 'all'>;
   level: 'Expert' | 'Advanced' | 'Intermediate';
+}
+
+interface AIToolItem {
+  name: string;
+  tag: string;
+  summary: string;
+  details: string;
+  icon: React.ReactNode;
 }
 
 const levelClasses: Record<string, string> = {
@@ -39,9 +50,8 @@ const getSkillIcon = (name: string) => {
   const n = name.toLowerCase();
   if (n.includes('javascript')) return <Code2 size={15} style={{ color: '#d4a800' }} />;
   if (n.includes('typescript')) return <FileJson size={15} style={{ color: '#3178c6' }} />;
-  if (n.includes('react.js') || n.includes('react native')) return <Atom size={15} style={{ color: '#0fb5d0' }} />;
+  if (n.includes('react.js') || n.includes('react 19') || n.includes('react native')) return <Atom size={15} style={{ color: '#0fb5d0' }} />;
   if (n.includes('redux')) return <Atom size={15} style={{ color: '#764abc' }} />;
-  // Next.js: uses theme adaptive text color
   if (n.includes('next.js')) return <Layers size={15} style={{ color: 'var(--text-primary)' }} />;
   if (n.includes('html5') || n.includes('css3')) return <Globe size={15} style={{ color: '#e34f26' }} />;
   if (n.includes('tailwind')) return <Wind size={15} style={{ color: '#0ea5e9' }} />;
@@ -49,11 +59,13 @@ const getSkillIcon = (name: string) => {
   if (n.includes('jquery')) return <Code2 size={15} style={{ color: '#0769ad' }} />;
   if (n.includes('laravel')) return <Layers size={15} style={{ color: '#ff2d20' }} />;
   if (n.includes('php')) return <Code2 size={15} style={{ color: '#6272a4' }} />;
-  if (n.includes('mysql') || n.includes('sql')) return <Database size={15} style={{ color: '#00758f' }} />;
+  if (n.includes('sqlite') || n.includes('mysql') || n.includes('sql')) return <Database size={15} style={{ color: '#00758f' }} />;
   if (n.includes('restful')) return <Globe size={15} style={{ color: '#10b981' }} />;
   if (n.includes('mvc') || n.includes('oop')) return <Workflow size={15} style={{ color: '#7c3aed' }} />;
   if (n.includes('git')) return <GitBranch size={15} style={{ color: '#f05032' }} />;
-  if (n.includes('claude') || n.includes('antigravity') || n.includes('cursor')) return <Terminal size={15} style={{ color: 'var(--accent)' }} />;
+  if (n.includes('antigravity') || n.includes('chatgpt')) return <Terminal size={15} style={{ color: 'var(--accent)' }} />;
+  if (n.includes('tanstack')) return <Layers size={15} style={{ color: '#ff4154' }} />;
+  if (n.includes('vite')) return <Zap size={15} style={{ color: '#bd34fe' }} />;
   if (n.includes('data structures') || n.includes('algorithms')) return <Binary size={15} style={{ color: '#e11d48' }} />;
   if (n.includes('performance')) return <Gauge size={15} style={{ color: '#059669' }} />;
   if (n.includes('problem solving')) return <Cpu size={15} style={{ color: '#d97706' }} />;
@@ -64,9 +76,48 @@ const getSkillIcon = (name: string) => {
   return <Code2 size={15} />;
 };
 
+const aiToolsList: AIToolItem[] = [
+  {
+    name: 'Google Antigravity',
+    tag: 'Workflow & Coding',
+    summary: 'AI-assisted coding and development workflows.',
+    details: 'Leveraging agentic development workflows, project-wide reasoning, and terminal verification while keeping software architecture and system boundaries human-driven.',
+    icon: <Terminal size={18} />,
+  },
+  {
+    name: 'ChatGPT',
+    tag: 'Problem-Solving & Analysis',
+    summary: 'Technical problem-solving, code explanations, debugging assistance, and development planning.',
+    details: 'Evaluating architectural trade-offs, accelerating complex API explorations, and structuring implementation approaches before committing production code.',
+    icon: <Sparkles size={18} />,
+  },
+  {
+    name: 'AI-Assisted Development',
+    tag: 'Implementation Workflow',
+    summary: 'Supporting implementation, refactoring, and development workflows with AI tools.',
+    details: 'Accelerating component scaffolding, modular refactoring routines, and repetitive boilerplate generation without compromising code clarity or structure.',
+    icon: <Workflow size={18} />,
+  },
+  {
+    name: 'Prompt Engineering',
+    tag: 'Context & Precision',
+    summary: 'Writing structured prompts for relevant and actionable development outputs.',
+    details: 'Formulating clear technical constraints, supplying localized codebase context, and guiding AI outputs toward deterministic, type-safe implementations.',
+    icon: <Binary size={18} />,
+  },
+  {
+    name: 'AI-Powered Debugging',
+    tag: 'Root-Cause Analysis',
+    summary: 'Investigating errors, evaluating potential fixes, and understanding root causes.',
+    details: 'Diagnosing tricky stack traces, analyzing edge cases in asynchronous state, and evaluating remediation approaches before committing fixes.',
+    icon: <ShieldCheck size={18} />,
+  },
+];
+
 export default function InteractiveSkills() {
   const [activeTab, setActiveTab] = useState<SkillCategory>('all');
   const { ref: headerRef, isVisible: headerIsVisible } = useScrollReveal({ threshold: 0.1 });
+  const { ref: aiRef, isVisible: aiIsVisible } = useScrollReveal({ threshold: 0.05 });
 
   const skills: SkillItem[] = [
     // Languages
@@ -77,34 +128,34 @@ export default function InteractiveSkills() {
     { name: 'C++', category: 'languages', level: 'Intermediate' },
     { name: 'C#', category: 'languages', level: 'Intermediate' },
 
-    // Frontend
-    { name: 'React.js', category: 'frontend', level: 'Expert' },
-    { name: 'Next.js', category: 'frontend', level: 'Expert' },
+    // Frontend (React, Next.js, and TypeScript remain primary strengths)
+    { name: 'React.js (v19)', category: 'frontend', level: 'Expert' },
+    { name: 'Next.js (App Router)', category: 'frontend', level: 'Expert' },
     { name: 'HTML5 & CSS3', category: 'frontend', level: 'Expert' },
+    { name: 'TanStack Query', category: 'frontend', level: 'Advanced' },
     { name: 'Redux Toolkit', category: 'frontend', level: 'Advanced' },
     { name: 'Context API', category: 'frontend', level: 'Expert' },
     { name: 'Tailwind CSS', category: 'frontend', level: 'Expert' },
-    { name: 'Bootstrap', category: 'frontend', level: 'Expert' },
-    { name: 'React Native', category: 'frontend', level: 'Intermediate' },
-    { name: 'jQuery', category: 'frontend', level: 'Advanced' },
+    { name: 'Bootstrap 5', category: 'frontend', level: 'Expert' },
+    { name: 'Vite', category: 'frontend', level: 'Expert' },
 
-    // Backend
+    // Backend & Persistence
+    { name: 'SQLite WASM', category: 'backend', level: 'Advanced' },
+    { name: 'RESTful APIs', category: 'backend', level: 'Expert' },
+    { name: 'MySQL', category: 'backend', level: 'Advanced' },
     { name: 'Laravel', category: 'backend', level: 'Advanced' },
     { name: 'PHP', category: 'backend', level: 'Advanced' },
-    { name: 'MySQL', category: 'backend', level: 'Advanced' },
-    { name: 'RESTful APIs', category: 'backend', level: 'Expert' },
     { name: 'MVC Architecture', category: 'backend', level: 'Advanced' },
     { name: 'OOP Concepts', category: 'backend', level: 'Advanced' },
 
-    // Tools & Practices
+    // Tools & Engineering Practices
     { name: 'Git & GitHub', category: 'tools', level: 'Expert' },
-    { name: 'Claude Code', category: 'tools', level: 'Expert' },
-    { name: 'Antigravity AI', category: 'tools', level: 'Expert' },
-    { name: 'Cursor IDE', category: 'tools', level: 'Expert' },
-    { name: 'Data Structures', category: 'tools', level: 'Advanced' },
-    { name: 'Algorithms', category: 'tools', level: 'Advanced' },
+    { name: 'Google Antigravity', category: 'tools', level: 'Expert' },
+    { name: 'ChatGPT', category: 'tools', level: 'Expert' },
     { name: 'Performance Audit', category: 'tools', level: 'Advanced' },
     { name: 'Problem Solving', category: 'tools', level: 'Expert' },
+    { name: 'Data Structures', category: 'tools', level: 'Advanced' },
+    { name: 'Algorithms', category: 'tools', level: 'Advanced' },
   ];
 
   const filteredSkills = activeTab === 'all'
@@ -126,11 +177,9 @@ export default function InteractiveSkills() {
   const prepareMarqueeItems = (items: SkillItem[]) => {
     if (items.length === 0) return [];
     let baseList = [...items];
-    // Keep appending to make sure the track spans wider than the screen width
     while (baseList.length < 10) {
       baseList = [...baseList, ...items];
     }
-    // Duplicate for seamless 50% transition looping
     return [...baseList, ...baseList];
   };
 
@@ -147,13 +196,13 @@ export default function InteractiveSkills() {
           className={`${styles.header} reveal reveal-up ${headerIsVisible ? 'reveal-visible' : ''}`}
         >
           <div className="pulse-badge">
-            <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>06 / TECH STACK &amp; TOOLS</span>
+            <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>06 / TECH STACK &amp; CAPABILITIES</span>
           </div>
           <h2 className={`${styles.title} text-gradient`}>
             Interactive Skill Map.
           </h2>
           <p className={styles.subtitle}>
-            Filter the interactive grid to explore individual languages, libraries, paradigms, and professional development tools.
+            Explore core programming languages, frontend framework specializations, state architectures, and engineering tools centered on React, Next.js, and TypeScript.
           </p>
 
           {/* Tab togglers */}
@@ -217,6 +266,49 @@ export default function InteractiveSkills() {
             )}
           </motion.div>
         </AnimatePresence>
+
+        {/* ───────────────────────────────────────────────────────────
+            AI Tools & AI-Assisted Development Subsection
+            ─────────────────────────────────────────────────────────── */}
+        <div
+          ref={aiRef}
+          className={`${styles.aiSection} reveal reveal-up ${aiIsVisible ? 'reveal-visible' : ''}`}
+        >
+          <div className={styles.aiHeader}>
+            <div className="pulse-badge">
+              <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>06.1 / AUGMENTED WORKFLOW</span>
+            </div>
+            <h3 className={`${styles.aiTitle} text-gradient`}>
+              AI Tools &amp; AI-Assisted Development
+            </h3>
+            <p className={styles.aiDesc}>
+              Using AI-powered tools to support development workflows, investigate technical issues, explore implementation approaches, and improve productivity while maintaining control over architecture, code quality, and final implementation decisions.
+            </p>
+            <div className={styles.aiNotice}>
+              <span className={styles.aiNoticeStrong}>Engineering Principle:</span>
+              <span>AI serves as an accelerator — architectural structure, code hygiene, and deployment verification remain fully developer-guided.</span>
+            </div>
+          </div>
+
+          <div className={styles.aiGrid}>
+            {aiToolsList.map((tool, idx) => (
+              <div
+                key={tool.name}
+                className={`${styles.aiCard} reveal reveal-up reveal-delay-${(idx % 3) + 1} ${aiIsVisible ? 'reveal-visible' : ''}`}
+              >
+                <div className={styles.aiCardHeader}>
+                  <div className={styles.aiCardIcon}>
+                    {tool.icon}
+                  </div>
+                  <span className={styles.aiCardTag}>{tool.tag}</span>
+                </div>
+                <h4 className={styles.aiCardName}>{tool.name}</h4>
+                <p className={styles.aiCardSummary}>{tool.summary}</p>
+                <p className={styles.aiCardDetails}>{tool.details}</p>
+              </div>
+            ))}
+          </div>
+        </div>
 
       </div>
     </section>

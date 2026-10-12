@@ -63,7 +63,7 @@ export default function Background3D() {
       };
     };
 
-    let pts: Particle[] = Array.from({ length: COUNT }, mkP);
+    const pts: Particle[] = Array.from({ length: COUNT }, mkP);
     pts.forEach(p => { p.baseX = p.x; p.baseY = p.y; });
 
     const onResize = () => { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; };

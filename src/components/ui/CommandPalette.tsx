@@ -92,7 +92,7 @@ export default function CommandPalette() {
     },
     {
       id: 'nav-skills',
-      title: 'Jump to Tech Stack Map',
+      title: 'Jump to Tech Stack & AI Tools',
       category: 'Navigation',
       icon: <Compass size={18} />,
       action: () => scrollToSection('skills'),
@@ -103,6 +103,27 @@ export default function CommandPalette() {
       category: 'Navigation',
       icon: <Compass size={18} />,
       action: () => scrollToSection('contact'),
+    },
+    {
+      id: 'launch-growfet',
+      title: 'Open Growfet — EdTech Academy (Live Platform)',
+      category: 'Actions',
+      icon: <ArrowRight size={18} />,
+      action: () => openLink('https://www.growfet.com/'),
+    },
+    {
+      id: 'launch-rashet',
+      title: 'Open Rashet Etr — Luxury Fragrance Store (Live Platform)',
+      category: 'Actions',
+      icon: <ArrowRight size={18} />,
+      action: () => openLink('https://rashet-etr.growfet.com/'),
+    },
+    {
+      id: 'launch-growtech',
+      title: 'Open Growfet Tech — Digital Services (Live Platform)',
+      category: 'Actions',
+      icon: <ArrowRight size={18} />,
+      action: () => openLink('https://tech.growfet.com/'),
     },
     {
       id: 'action-theme',

@@ -149,13 +149,13 @@ export default function Hero() {
           {/* Main photo frame */}
           <div className={styles.photoFrame}>
             <Image
-              src="/Img/profile.png"
+              src="/Img/profile.jpg"
               alt="Ebrahim Amer – Front-End Engineer"
               fill
               priority
               sizes="(max-width: 768px) 280px, 380px"
               className={styles.photo}
-              style={{ objectFit: 'cover', objectPosition: 'top center' }}
+              style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
             />
             {/* Bottom gradient fade */}
             <div className={styles.photoFade} />

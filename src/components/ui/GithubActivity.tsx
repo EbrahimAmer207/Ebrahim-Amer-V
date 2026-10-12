@@ -35,15 +35,19 @@ export default function GithubActivity() {
       const isWeekend = day === 0 || day === 6;
       let count = 0;
       
+      // Deterministic pseudo-randomness based on index i to ensure component purity
+      const rand1 = Math.abs(Math.sin(i * 12.9898 + 78.233)) % 1;
+      const rand2 = Math.abs(Math.sin(i * 43.123 + 12.456)) % 1;
+
       // Introduce periodic coding cycles
       const cycleIndex = Math.sin(i / 10);
       if (cycleIndex > -0.2) {
-        count = Math.floor(Math.random() * (isWeekend ? 3 : 8));
+        count = Math.floor(rand1 * (isWeekend ? 3 : 8));
       }
       
       // Occasionally generate a high commit day
-      if (Math.random() > 0.95) {
-        count = Math.floor(Math.random() * 5) + 8;
+      if (rand2 > 0.95) {
+        count = Math.floor(rand1 * 5) + 8;
       }
 
       let level: 0 | 1 | 2 | 3 | 4 = 0;
