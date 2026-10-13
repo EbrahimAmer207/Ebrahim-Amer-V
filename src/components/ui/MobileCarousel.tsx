@@ -33,16 +33,18 @@ export default function MobileCarousel({
 
   const validIndex = index >= childrenArray.length ? 0 : index;
 
+  const [isPaused, setIsPaused] = useState(false);
+
   // Autoplay handler
   useEffect(() => {
-    if (!isMobile || !autoplay || childrenArray.length <= 1) return;
+    if (!isMobile || !autoplay || isPaused || childrenArray.length <= 1) return;
 
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % childrenArray.length);
     }, autoplayInterval);
 
     return () => clearInterval(timer);
-  }, [isMobile, autoplay, childrenArray.length, autoplayInterval]);
+  }, [isMobile, autoplay, isPaused, childrenArray.length, autoplayInterval]);
 
   if (!isMobile) {
     return (
@@ -67,7 +69,12 @@ export default function MobileCarousel({
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', overflow: 'hidden', paddingBottom: '0.5rem' }}>
+    <div
+      style={{ position: 'relative', width: '100%', overflow: 'hidden', paddingBottom: '0.5rem' }}
+      onTouchStart={() => setIsPaused(true)}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       
       {/* Track */}
       <motion.div
@@ -87,24 +94,33 @@ export default function MobileCarousel({
         style={{
           display: 'flex',
           width: '100%',
+          alignItems: 'stretch',
           cursor: childrenArray.length > 1 ? 'grab' : 'default',
           touchAction: 'pan-y',
         }}
         whileTap={childrenArray.length > 1 ? { cursor: 'grabbing' } : undefined}
       >
-        {childrenArray.map((child, idx) => (
-          <div
-            key={idx}
-            style={{
-              width: '100%',
-              flexShrink: 0,
-              padding: '0 0.5rem',
-              boxSizing: 'border-box',
-            }}
-          >
-            {child}
-          </div>
-        ))}
+        {childrenArray.map((child, idx) => {
+          const stableKey = React.isValidElement(child) && child.key 
+            ? String(child.key) 
+            : `slide-node-${idx}`;
+          return (
+            <div
+              key={stableKey}
+              style={{
+                width: '100%',
+                flexShrink: 0,
+                padding: '0 0.5rem',
+                boxSizing: 'border-box',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              {child}
+            </div>
+          );
+        })}
       </motion.div>
 
       {/* Control Bar (Arrows + Dots) */}
@@ -144,7 +160,7 @@ export default function MobileCarousel({
           <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
             {childrenArray.map((_, idx) => (
               <button
-                key={idx}
+                key={`carousel-dot-${idx}`}
                 onClick={() => setIndex(idx)}
                 style={{
                   width: idx === validIndex ? '16px' : '5px',

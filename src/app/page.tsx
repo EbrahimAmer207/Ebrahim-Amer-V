@@ -1,71 +1,39 @@
-'use client';
+import { 
+  getPublicProjects, 
+  getPublicHeroContent, 
+  getPublicAboutContent, 
+  getPublicSkills, 
+  getPublicAITools, 
+  getPublicExperiences, 
+  getPublicSiteSettings 
+} from '@/lib/supabase/data';
+import PortfolioClient from '@/components/layout/PortfolioClient';
 
-import React, { useState, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import Loader from '@/components/layout/Loader';
-import Navigation from '@/components/layout/Navigation';
-import Hero from '@/components/sections/Hero';
-import ProjectShowcase from '@/components/sections/ProjectShowcase';
-import Expertise from '@/components/sections/Expertise';
-import Process from '@/components/sections/Process';
-import About from '@/components/sections/About';
-import Experience from '@/components/sections/Experience';
-import InteractiveSkills from '@/components/sections/InteractiveSkills';
-import Availability from '@/components/sections/Availability';
-import Contact from '@/components/sections/Contact';
-import Footer from '@/components/layout/Footer';
-import CustomCursor from '@/components/ui/CustomCursor';
-import CommandPalette from '@/components/ui/CommandPalette';
+// Enable ISR / cache revalidation
+export const revalidate = 60;
 
-export default function Home() {
-  const [loading, setLoading] = useState(true);
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  // Detect desktop for custom cursor loading
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+export default async function Home() {
+  const [projects, hero, about, skills, aiTools, experiences, settings] = await Promise.all([
+    getPublicProjects(),
+    getPublicHeroContent(),
+    getPublicAboutContent(),
+    getPublicSkills(),
+    getPublicAITools(),
+    getPublicExperiences(),
+    getPublicSiteSettings(),
+  ]);
 
   return (
-    <>
-      {/* Premium Loader screen */}
-      <AnimatePresence mode="wait">
-        {loading && <Loader onComplete={() => setLoading(false)} />}
-      </AnimatePresence>
-
-      {!loading && (
-        <>
-          {/* Custom lagging cursor on desktop */}
-          {isDesktop && <CustomCursor />}
-          
-          {/* ⌘K / Ctrl+K Command Palette */}
-          <CommandPalette />
-
-          {/* Navigation floating menu */}
-          <Navigation />
-
-          {/* Scrolling Section Stack */}
-          <main style={{ position: 'relative', zIndex: 2 }}>
-            <Hero />
-            <ProjectShowcase />
-            <Expertise />
-            <Process />
-            <About />
-            <Experience />
-            <InteractiveSkills />
-            <Availability />
-            <Contact />
-          </main>
-
-          {/* Footer block */}
-          <Footer />
-        </>
-      )}
-    </>
+    <PortfolioClient
+      initialData={{
+        projects,
+        hero,
+        about,
+        skills,
+        aiTools,
+        experiences,
+        settings,
+      }}
+    />
   );
 }

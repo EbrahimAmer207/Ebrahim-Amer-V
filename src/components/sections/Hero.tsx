@@ -8,7 +8,25 @@ import { useMousePosition } from '@/hooks/useMousePosition';
 import { ArrowRight, Sparkles, Download } from 'lucide-react';
 import styles from './Hero.module.css';
 
-export default function Hero() {
+export interface HeroProps {
+  content?: {
+    badge_text?: string;
+    title_line_1?: string;
+    title_line_2?: string;
+    title_line_3?: string;
+    description?: string;
+    primary_cta_label?: string;
+    primary_cta_link?: string;
+    secondary_cta_label?: string;
+    secondary_cta_link?: string;
+    cv_download_url?: string;
+    cv_download_filename?: string;
+    profile_image_url?: string;
+    proof_metrics?: { value: string; label: string }[];
+  };
+}
+
+export default function Hero({ content }: HeroProps = {}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mouse = useMousePosition();
 
@@ -21,7 +39,8 @@ export default function Hero() {
   }, [mouse]);
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    const targetId = id.startsWith('#') ? id.slice(1) : id;
+    document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   // Stagger container
@@ -36,11 +55,15 @@ export default function Hero() {
     show:   { y: 0,  opacity: 1, transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] as [number,number,number,number] } },
   };
 
-  const proofItems = [
+  const defaultProofItems = [
     { value: '9+',  label: 'Projects Built' },
     { value: '4+',  label: 'Certifications' },
     { value: '2026',label: 'CS Graduation' },
   ];
+
+  const proofItems = content?.proof_metrics && content.proof_metrics.length > 0 
+    ? content.proof_metrics 
+    : defaultProofItems;
 
   return (
     <section ref={containerRef} id="home" className={styles.hero}>
@@ -65,7 +88,7 @@ export default function Hero() {
             className={`pulse-badge ${styles.badge}`}
           >
             <div className="pulse-dot" />
-            <span>Available for junior roles &amp; internships</span>
+            <span>{content?.badge_text || 'Available for junior roles & internships'}</span>
           </motion.div>
 
           {/* Title lines */}
@@ -76,13 +99,13 @@ export default function Hero() {
             className={styles.title}
           >
             <motion.span variants={line} className={`${styles.titleLine} text-gradient`}>
-              Building Digital
+              {content?.title_line_1 || 'Building Digital'}
             </motion.span>
             <motion.span variants={line} className={`${styles.titleLine} text-gradient`}>
-              Experiences That
+              {content?.title_line_2 || 'Experiences That'}
             </motion.span>
             <motion.span variants={line} className={`${styles.titleLine} ${styles.accent}`}>
-              Feel Effortless.
+              {content?.title_line_3 || 'Feel Effortless.'}
             </motion.span>
           </motion.h1>
 
@@ -93,8 +116,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] as [number,number,number,number] }}
             className={styles.description}
           >
-            Front-End Engineer focused on high-performance React & Next.js applications,
-            pixel-perfect design systems, and interactive storytelling that converts visitors into clients.
+            {content?.description || 'Front-End Engineer focused on high-performance React & Next.js applications, pixel-perfect design systems, and interactive storytelling that converts visitors into clients.'}
           </motion.p>
 
           {/* CTAs */}
@@ -104,15 +126,19 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.85, ease: [0.16, 1, 0.3, 1] as [number,number,number,number] }}
             className={styles.actions}
           >
-            <Button variant="primary" onClick={() => scrollTo('projects')}>
-              <span>View Selected Work</span>
+            <Button variant="primary" onClick={() => scrollTo(content?.primary_cta_link || 'projects')}>
+              <span>{content?.primary_cta_label || 'View Selected Work'}</span>
               <ArrowRight size={16} style={{ marginLeft: '0.4rem', display: 'inline-block', verticalAlign: 'middle' }} />
             </Button>
-            <Button variant="secondary" onClick={() => scrollTo('contact')}>
-              <span>Let&rsquo;s Connect</span>
+            <Button variant="secondary" onClick={() => scrollTo(content?.secondary_cta_link || 'contact')}>
+              <span>{content?.secondary_cta_label || "Let's Connect"}</span>
               <Sparkles size={14} style={{ marginLeft: '0.4rem', display: 'inline-block', verticalAlign: 'middle', color: 'var(--accent)' }} />
             </Button>
-            <a href="/Files/EBRAHIM_ABDELMONEM_CV.pdf" download="Ebrahim_Amer_CV.pdf" style={{ textDecoration: 'none' }}>
+            <a 
+              href={content?.cv_download_url || '/Files/EBRAHIM_ABDELMONEM_CV.pdf'} 
+              download={content?.cv_download_filename || 'Ebrahim_Amer_CV.pdf'} 
+              style={{ textDecoration: 'none' }}
+            >
               <Button variant="minimal">
                 <span>Download CV</span>
                 <Download size={14} style={{ marginLeft: '0.3rem', display: 'inline-block', verticalAlign: 'middle' }} />
@@ -127,8 +153,8 @@ export default function Hero() {
             transition={{ duration: 0.9, delay: 1.05 }}
             className={styles.proofs}
           >
-            {proofItems.map((item, i) => (
-              <div key={i} className={styles.proofCard}>
+            {proofItems.map((item) => (
+              <div key={item.label} className={styles.proofCard}>
                 <span className={styles.proofVal}>{item.value}</span>
                 <span className={styles.proofLabel}>{item.label}</span>
               </div>
@@ -149,7 +175,7 @@ export default function Hero() {
           {/* Main photo frame */}
           <div className={styles.photoFrame}>
             <Image
-              src="/Img/profile.jpg"
+              src={content?.profile_image_url || '/Img/profile.jpg'}
               alt="Ebrahim Amer – Front-End Engineer"
               fill
               priority

@@ -18,20 +18,20 @@ import {
 } from 'lucide-react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import MobileCarousel from '../ui/MobileCarousel';
+import { ProjectRecord } from '@/lib/supabase/types';
 import styles from './ProjectShowcase.module.css';
 
-// Project image mapping for all case studies
+// Project image mapping for fallback
 const projectImages: Record<string, string> = {
-  // Top 3 Real Company Platforms
   'growfet': '/Img/image copy.png',
   'rashet-etr': '/Img/image.png',
   'growfet-tech': '/Img/image copy 2.png',
-  // Additional Engineering Builds
   'luxe-ecommerce': '/Img/luxe-ecommerce.png',
   'aetheria-estate': '/Img/4.png',
   'apex-ecommerce': '/Img/fake.png',
   'nexus-dashboard': '/Img/Dash.png',
   'nimbus-weather': '/Img/we.png',
+  'supabase-portfolio': '/Img/port.png',
 };
 
 // Clean display URLs for browser mockup pills
@@ -44,6 +44,7 @@ const projectUrls: Record<string, string> = {
   'apex-ecommerce': 'fake-store.vercel.app',
   'nexus-dashboard': 'dashboard.vercel.app',
   'nimbus-weather': 'weather.vercel.app',
+  'supabase-portfolio': 'ebrahim-amer.vercel.app',
 };
 
 // Client prototypes archive
@@ -55,6 +56,7 @@ const archiveProjects = [
     image: '/Img/pato.png',
     demoUrl: 'https://new-pato.vercel.app/',
     codeUrl: 'https://github.com/EbrahimAmer207/New-pato',
+    displayUrl: 'new-pato.vercel.app',
   },
   {
     title: 'Doctor Medical Client',
@@ -63,6 +65,7 @@ const archiveProjects = [
     image: '/Img/2.png',
     demoUrl: 'https://doctor-drab.vercel.app/',
     codeUrl: 'https://github.com/EbrahimAmer207/Doctor',
+    displayUrl: 'doctor-drab.vercel.app',
   },
   {
     title: '57357 Hospital Redesign',
@@ -71,18 +74,45 @@ const archiveProjects = [
     image: '/Img/1.png',
     demoUrl: 'https://57357.vercel.app/',
     codeUrl: 'https://github.com/EbrahimAmer207/57357',
+    displayUrl: '57357.vercel.app',
   },
 ];
 
-export default function ProjectShowcase() {
+export interface ProjectShowcaseProps {
+  projects?: ProjectRecord[];
+}
+
+export default function ProjectShowcase({ projects }: ProjectShowcaseProps = {}) {
   const [showMore, setShowMore] = useState(false);
   const { ref: headerRef, isVisible: headerIsVisible } = useScrollReveal({ threshold: 0.1 });
   const { ref: featuredRef, isVisible: featuredIsVisible } = useScrollReveal({ threshold: 0.05 });
 
+  // Map database ProjectRecord or fallback to static projectsData
+  const activeProjects = projects && projects.length > 0 
+    ? projects.map(p => ({
+        slug: p.slug,
+        title: p.title,
+        category: p.category,
+        demoUrl: p.demo_url,
+        codeUrl: p.code_url,
+        isPrivateCode: p.is_private_code,
+        brandNameArabic: p.brand_name_arabic || undefined,
+        description: p.description,
+        longDescription: p.long_description,
+        tech: p.tech,
+        metrics: p.metrics,
+        story: p.story,
+        challenges: p.challenges,
+        outcomes: p.outcomes,
+        screenshots: p.screenshots,
+        featured: p.featured,
+      }))
+    : projectsData;
+
   // Separate primary 3 company platforms from other engineering builds
   const primaryCompanySlugs = ['growfet', 'rashet-etr', 'growfet-tech'];
-  const primaryProjects = projectsData.filter((p) => primaryCompanySlugs.includes(p.slug));
-  const additionalProjects = projectsData.filter((p) => !primaryCompanySlugs.includes(p.slug));
+  const primaryProjects = activeProjects.filter((p) => primaryCompanySlugs.includes(p.slug));
+  const additionalProjects = activeProjects.filter((p) => !primaryCompanySlugs.includes(p.slug));
 
   return (
     <section id="projects" className={styles.section}>
@@ -108,7 +138,7 @@ export default function ProjectShowcase() {
         <div ref={featuredRef}>
           <MobileCarousel desktopGridClass={styles.featuredGrid}>
             {primaryProjects.map((project, index) => {
-              const imagePath = projectImages[project.slug] || '/Img/image copy.png';
+              const imagePath = (project.screenshots && project.screenshots[0]?.src) || projectImages[project.slug] || '/Img/image copy.png';
               const displayUrl = projectUrls[project.slug] || 'live.growfet.com';
               
               return (
@@ -261,9 +291,9 @@ export default function ProjectShowcase() {
               </div>
 
               {/* Grid of the 5 Additional Case-Study Projects */}
-              <div className={styles.additionalGrid}>
+              <MobileCarousel desktopGridClass={styles.additionalGrid} autoplay={false}>
                 {additionalProjects.map((project) => {
-                  const imagePath = projectImages[project.slug] || '/Img/port.png';
+                  const imagePath = (project.screenshots && project.screenshots[0]?.src) || projectImages[project.slug] || '/Img/port.png';
                   const displayUrl = projectUrls[project.slug] || `${project.slug}.vercel.app`;
 
                   return (
@@ -367,7 +397,7 @@ export default function ProjectShowcase() {
                     </div>
                   );
                 })}
-              </div>
+              </MobileCarousel>
 
               {/* Archive / Client Prototypes Grid */}
               <div className={styles.archiveWrapper}>
@@ -381,38 +411,103 @@ export default function ProjectShowcase() {
                   </p>
                 </div>
 
-                <div className={styles.archiveGrid}>
-                  {archiveProjects.map((proj, index) => (
-                    <Card key={index} className={styles.archiveCard} style={{ height: '100%' }}>
-                      <div className={styles.archImgFrame}>
-                        <Image
-                          src={proj.image}
-                          alt={proj.title}
-                          fill
-                          sizes="(max-width: 1024px) 100vw, 33vw"
-                          className={styles.archImg}
-                        />
-                      </div>
-                      <div className={styles.archInfo}>
-                        <h4 className={styles.archTitle}>{proj.title}</h4>
-                        <p className={styles.archDesc}>{proj.desc}</p>
-                        <div className={styles.archTech}>
-                          {proj.tech.map((t) => (
-                            <span key={t} className={styles.archTag}>{t}</span>
-                          ))}
+                <MobileCarousel desktopGridClass={styles.archiveGrid} autoplay={false}>
+                  {archiveProjects.map((proj) => (
+                    <div key={proj.title} className={styles.archiveWrapperCard}>
+                      <Card className={styles.archiveCard} style={{ height: '100%' }}>
+                        
+                        {/* Chrome Header */}
+                        <div className={styles.cardChrome}>
+                          <div className={styles.chromeDots}>
+                            <span className={`${styles.dot} ${styles.dotRed}`} />
+                            <span className={`${styles.dot} ${styles.dotYellow}`} />
+                            <span className={`${styles.dot} ${styles.dotGreen}`} />
+                          </div>
+                          <div className={styles.chromeUrl}>
+                            <Lock size={10} style={{ color: 'var(--accent)' }} />
+                            <span>{proj.displayUrl}</span>
+                          </div>
                         </div>
-                        <div className={styles.archLinks}>
-                          <a href={proj.demoUrl} target="_blank" rel="noopener noreferrer" className={styles.archLink}>
-                            <ExternalLink size={13} /> Live Demo
+
+                        {/* Full-width 16:10 Image Preview */}
+                        <a
+                          href={proj.demoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.archImgLink}
+                          aria-label={`Open live demo for ${proj.title}`}
+                        >
+                          <div className={styles.archImgFrame}>
+                            <Image
+                              src={proj.image}
+                              alt={`${proj.title} - Interface and landing page preview`}
+                              fill
+                              sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                              className={styles.archImg}
+                            />
+                            <div className={styles.hoverMask}>
+                              <span className={styles.maskText}>Live Demo</span>
+                              <ArrowUpRight size={18} />
+                            </div>
+                          </div>
+                        </a>
+
+                        {/* Card Content Body */}
+                        <div className={styles.archInfo}>
+                          <div className={styles.archMetaRow}>
+                            <span className={styles.archCategory}>
+                              <span className={styles.categoryDot} />
+                              Client Prototype
+                            </span>
+                          </div>
+
+                          <a
+                            href={proj.demoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ textDecoration: 'none' }}
+                            aria-label={`Open live demo for ${proj.title}`}
+                          >
+                            <h4 className={styles.archTitle}>{proj.title}</h4>
                           </a>
-                          <a href={proj.codeUrl} target="_blank" rel="noopener noreferrer" className={styles.archLink}>
-                            <GitBranch size={13} /> Source Code
-                          </a>
+
+                          <p className={styles.archDesc}>{proj.desc}</p>
+
+                          <div className={styles.archTech}>
+                            {proj.tech.map((t) => (
+                              <span key={t} className={styles.archTag}>{t}</span>
+                            ))}
+                          </div>
+
+                          {/* Action Links Aligned at Bottom */}
+                          <div className={styles.archLinks}>
+                            <a
+                              href={proj.demoUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={styles.archLinkPrimary}
+                              aria-label={`Open live demo for ${proj.title}`}
+                            >
+                              <span>Live Demo</span>
+                              <ArrowUpRight size={14} />
+                            </a>
+                            <a
+                              href={proj.codeUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={styles.archLinkSecondary}
+                              aria-label={`Open source code for ${proj.title}`}
+                            >
+                              <GitBranch size={13} />
+                              <span>Source Code</span>
+                            </a>
+                          </div>
                         </div>
-                      </div>
-                    </Card>
+
+                      </Card>
+                    </div>
                   ))}
-                </div>
+                </MobileCarousel>
               </div>
 
             </motion.div>

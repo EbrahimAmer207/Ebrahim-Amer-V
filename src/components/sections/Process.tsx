@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import MobileCarousel from '../ui/MobileCarousel';
 import styles from './Process.module.css';
 
 export default function Process() {
@@ -28,28 +28,6 @@ export default function Process() {
     },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 24 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
-      },
-    },
-  };
-
   return (
     <section id="process" className={styles.section}>
       <div className="container">
@@ -63,16 +41,10 @@ export default function Process() {
           </p>
         </div>
 
-        {/* 4 Steps Grid */}
-        <motion.div
-          className={styles.grid}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-50px' }}
-          variants={containerVariants}
-        >
+        {/* 4 Steps Carousel on Mobile, Grid on Desktop */}
+        <MobileCarousel desktopGridClass={styles.grid} autoplay={false}>
           {steps.map((step) => (
-            <motion.div key={step.num} className={styles.stepCard} variants={itemVariants}>
+            <div key={step.num} className={styles.stepCard} style={{ height: '100%' }}>
               <div>
                 <div className={styles.stepNumber}>
                   <span>STEP {step.num}</span>
@@ -81,9 +53,9 @@ export default function Process() {
                 <h3 className={styles.stepTitle}>{step.title}</h3>
               </div>
               <p className={styles.stepDesc}>{step.desc}</p>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </MobileCarousel>
 
       </div>
     </section>

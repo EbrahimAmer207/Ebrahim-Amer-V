@@ -3,13 +3,18 @@ import { Card } from '../ui/Card';
 import { Briefcase, GraduationCap, Calendar, ArrowUpRight } from 'lucide-react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import MobileCarousel from '../ui/MobileCarousel';
+import { ExperienceRecord } from '@/lib/supabase/types';
 import styles from './Experience.module.css';
 
-export default function Experience() {
+export interface ExperienceProps {
+  experiences?: ExperienceRecord[];
+}
+
+export default function Experience({ experiences }: ExperienceProps = {}) {
   const { ref: headerRef, isVisible: headerIsVisible } = useScrollReveal({ threshold: 0.1 });
   const { ref: leftRef, isVisible: leftIsVisible } = useScrollReveal({ threshold: 0.05 });
 
-  const experiences = [
+  const defaultExperiences = [
     {
       title: 'Egypt Digital Pioneers Initiative (DEPI)',
       role: 'Frontend Development Fellow',
@@ -26,7 +31,7 @@ export default function Experience() {
     },
   ];
 
-  const education = [
+  const defaultEducation = [
     {
       title: 'Mansoura University',
       degree: 'Bachelor of Computer Science',
@@ -46,6 +51,27 @@ export default function Experience() {
       desc: 'Focused on MVC architecture, database migrations, model relationships, routing, authentication, and RESTful API development.',
     },
   ];
+
+  const activeExperiences = experiences && experiences.filter(e => e.type === 'experience').length > 0
+    ? experiences.filter(e => e.type === 'experience').map(e => ({
+        title: e.title,
+        role: e.role_or_degree,
+        date: e.date_range,
+        desc: e.description,
+        certUrl: e.cert_url,
+      }))
+    : defaultExperiences;
+
+  const activeEducation = experiences && experiences.filter(e => e.type !== 'experience').length > 0
+    ? experiences.filter(e => e.type !== 'experience').map(e => ({
+        title: e.title,
+        degree: e.type === 'education' ? e.role_or_degree : undefined,
+        institution: e.institution,
+        date: e.date_range,
+        desc: e.description,
+        certUrl: e.cert_url,
+      }))
+    : defaultEducation;
 
   return (
     <section id="experience" className={styles.section}>
@@ -77,9 +103,9 @@ export default function Experience() {
               </div>
               <div className={styles.timeline}>
                 <div className={styles.timelineLine} />
-                {experiences.map((exp, idx) => (
+                {activeExperiences.map((exp, idx) => (
                   <div
-                    key={idx}
+                    key={exp.title}
                     className={`${styles.timelineNode} reveal reveal-left reveal-delay-${idx + 1} ${leftIsVisible ? 'reveal-visible' : ''}`}
                   >
                     <div className={styles.timelinePoint} />
@@ -111,9 +137,9 @@ export default function Experience() {
               </div>
               <div className={styles.timeline}>
                 <div className={styles.timelineLine} />
-                {education.map((edu, idx) => (
+                {activeEducation.map((edu, idx) => (
                   <div
-                    key={idx}
+                    key={edu.title}
                     className={`${styles.timelineNode} reveal reveal-right reveal-delay-${idx + 1} ${leftIsVisible ? 'reveal-visible' : ''}`}
                   >
                     <div className={styles.timelinePoint} />

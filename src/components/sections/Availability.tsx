@@ -5,6 +5,7 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { Code, GraduationCap, Briefcase, ArrowRight } from 'lucide-react';
+import MobileCarousel from '../ui/MobileCarousel';
 import styles from './Availability.module.css';
 
 export default function Availability() {
@@ -63,29 +64,31 @@ export default function Availability() {
           </p>
         </div>
 
-        {/* Opportunities Grid */}
+        {/* Opportunities Carousel on Mobile, Grid on Desktop */}
         <div
           ref={cardsRef}
-          className={`${styles.grid} reveal reveal-up ${cardsIsVisible ? 'reveal-visible' : ''}`}
+          className={`reveal reveal-up ${cardsIsVisible ? 'reveal-visible' : ''}`}
         >
-          {opportunities.map((opt, idx) => (
-            <Card key={idx} className={`${styles.card} ${opt.accentClass}`}>
-              <div className={styles.cardHeader}>
-                <div className={styles.iconContainer}>{opt.icon}</div>
-                <div className={styles.statusBadge}>
-                  <span className={styles.pulseDot} />
-                  <span>{opt.status}</span>
+          <MobileCarousel desktopGridClass={styles.grid} autoplay={false}>
+            {opportunities.map((opt) => (
+              <Card key={opt.role} className={`${styles.card} ${opt.accentClass}`} style={{ height: '100%' }}>
+                <div className={styles.cardHeader}>
+                  <div className={styles.iconContainer}>{opt.icon}</div>
+                  <div className={styles.statusBadge}>
+                    <span className={styles.pulseDot} />
+                    <span>{opt.status}</span>
+                  </div>
                 </div>
-              </div>
-              
-              <h3 className={styles.cardTitle}>{opt.role}</h3>
-              <p className={styles.cardDesc}>{opt.desc}</p>
-              
-              <div className={styles.cardMeta}>
-                <span className={styles.metaChip}>{opt.spec}</span>
-              </div>
-            </Card>
-          ))}
+                
+                <h3 className={styles.cardTitle}>{opt.role}</h3>
+                <p className={styles.cardDesc}>{opt.desc}</p>
+                
+                <div className={styles.cardMeta}>
+                  <span className={styles.metaChip}>{opt.spec}</span>
+                </div>
+              </Card>
+            ))}
+          </MobileCarousel>
         </div>
 
         {/* Call to Action Banner */}

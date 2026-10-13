@@ -30,6 +30,7 @@ const projectImages: Record<string, string> = {
   'apex-ecommerce': '/Img/fake.png',
   'nexus-dashboard': '/Img/Dash.png',
   'nimbus-weather': '/Img/we.png',
+  'supabase-portfolio': '/Img/port.png',
 };
 
 interface CaseStudyClientProps {
@@ -115,8 +116,8 @@ export default function CaseStudyClient({ project }: CaseStudyClientProps) {
               <ShieldCheck size={20} className={styles.sectionIcon} /> Technical &amp; Architecture Specifications
             </h2>
             <div className={styles.metricsGrid}>
-              {project.metrics.map((metric, index) => (
-                <Card key={index} className={styles.metricCard}>
+              {project.metrics.map((metric) => (
+                <Card key={metric.label} className={styles.metricCard}>
                   <span className={styles.metricVal}>{metric.value}</span>
                   <span className={styles.metricLabel}>{metric.label}</span>
                 </Card>
@@ -166,7 +167,7 @@ export default function CaseStudyClient({ project }: CaseStudyClientProps) {
               <h3 className={styles.blockTitle}>Obstacles Overcome</h3>
               <ul className={styles.blockList}>
                 {project.challenges.map((challenge, idx) => (
-                  <li key={idx} className={styles.blockItem}>
+                  <li key={challenge.slice(0, 30)} className={styles.blockItem}>
                     <span className={styles.bulletIdx}>0{idx + 1}</span>
                     <p>{challenge}</p>
                   </li>
@@ -178,8 +179,8 @@ export default function CaseStudyClient({ project }: CaseStudyClientProps) {
             <div className={styles.detailsBlock}>
               <h3 className={styles.blockTitle}>My Specific Technical Contributions</h3>
               <ul className={styles.blockList}>
-                {project.outcomes.map((outcome, idx) => (
-                  <li key={idx} className={styles.blockItem}>
+                {project.outcomes.map((outcome) => (
+                  <li key={outcome.slice(0, 30)} className={styles.blockItem}>
                     <CheckCircle2 size={16} className={styles.checkIcon} />
                     <p>{outcome}</p>
                   </li>
@@ -196,8 +197,8 @@ export default function CaseStudyClient({ project }: CaseStudyClientProps) {
                 <Layers size={20} className={styles.sectionIcon} /> Verified Platform Interfaces &amp; Gallery
               </h2>
               <div className={styles.galleryGrid}>
-                {project.screenshots.map((shot, idx) => (
-                  <Card key={idx} className={styles.galleryCard}>
+                {project.screenshots.map((shot) => (
+                  <Card key={shot.src} className={styles.galleryCard}>
                     <div className={styles.galleryImgFrame}>
                       <Image
                         src={shot.src}

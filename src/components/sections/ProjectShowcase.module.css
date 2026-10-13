@@ -532,16 +532,22 @@
 .archiveGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.archiveWrapperCard {
+  position: relative;
+  height: 100%;
 }
 
 .archiveCard {
   padding: 0;
   overflow: hidden;
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  border-radius: 14px;
+  border-radius: 16px;
   border: 1px solid var(--card-border);
   background: var(--card-bg);
   box-shadow: var(--card-shadow);
@@ -560,101 +566,204 @@
 }
 
 .archiveCard:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
   border-color: var(--card-border-hover);
   box-shadow: var(--card-shadow-hover);
   background: var(--card-bg-hover);
 }
 
+.archiveCard:hover .hoverMask {
+  opacity: 1;
+}
+
+.archImgLink {
+  display: block;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Full-width 16:10 Aspect Ratio Image Frame */
 .archImgFrame {
   position: relative;
   width: 100%;
-  height: 100%;
-  min-height: 180px;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: var(--bg-primary);
-  border-right: 1px solid var(--border-color);
+  background: #08080d;
+  border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="light"] .archImgFrame {
+  background: #eef2f7;
 }
 
 .archImg {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.archiveCard:hover .archImg {
+  transform: scale(1.04);
+}
+
+/* Card Body */
 .archInfo {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  justify-content: center;
+  flex: 1;
+  gap: 0;
+}
+
+.archMetaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.archCategory {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
 }
 
 .archTitle {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 700;
   color: var(--text-primary);
+  margin-bottom: 0.55rem;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+  transition: color 0.2s ease;
+}
+
+.archiveCard:hover .archTitle {
+  color: var(--accent);
 }
 
 .archDesc {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
-  line-height: 1.5;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
 }
 
 .archTech {
   display: flex;
-  gap: 0.35rem;
+  gap: 0.4rem;
   flex-wrap: wrap;
+  margin-bottom: 1.25rem;
 }
 
 .archTag {
-  font-size: 0.65rem;
-  padding: 0.2rem 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.22rem 0.55rem;
   background: var(--bg-hover);
   border: 1px solid var(--border-color);
-  border-radius: 4px;
+  border-radius: 6px;
   color: var(--text-secondary);
+  font-family: var(--font-mono);
+  transition: all 0.2s ease;
 }
 
-.archLinks {
-  display: flex;
-  gap: 1rem;
-  margin-top: 0.25rem;
-}
-
-.archLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.75rem;
-  color: var(--accent);
-  font-weight: 500;
-}
-
-.archLink:hover {
+.archTag:hover {
+  border-color: rgba(var(--accent-rgb), 0.3);
   color: var(--text-primary);
 }
 
-/* Responsive Overrides */
-@media (max-width: 1024px) {
-  .featuredGrid {
-    grid-template-columns: 1fr;
-  }
-  .archiveCard {
-    grid-template-columns: 1fr;
-  }
-  .archImgFrame {
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-    aspect-ratio: 16/10;
-    min-height: auto;
+/* Card Action Footer */
+.archLinks {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  margin-top: auto;
+}
+
+.archLinkPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  background: rgba(var(--accent-rgb), 0.08);
+  border: 1px solid rgba(var(--accent-rgb), 0.22);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.archLinkPrimary:hover {
+  background: rgba(var(--accent-rgb), 0.18);
+  border-color: rgba(var(--accent-rgb), 0.45);
+  transform: translateY(-1px);
+  color: #ffffff;
+}
+
+[data-theme="light"] .archLinkPrimary:hover {
+  color: var(--accent);
+}
+
+.archLinkSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.45rem 0.75rem;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.archLinkSecondary:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+  border-color: var(--border-color);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1100px) {
+  .archiveGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
   }
 }
 
 @media (max-width: 768px) {
   .archiveGrid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .archInfo {
+    padding: 1.25rem;
+  }
+  .archLinks {
+    flex-wrap: wrap;
+  }
+  .archLinkPrimary,
+  .archLinkSecondary {
+    flex: 1;
+    justify-content: center;
   }
 }
 

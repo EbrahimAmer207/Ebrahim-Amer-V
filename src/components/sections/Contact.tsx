@@ -5,6 +5,7 @@ import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { Mail, Phone, GitBranch, Copy, Check, Send, Sparkles } from 'lucide-react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { SiteSettingsRecord } from '@/lib/supabase/types';
 import styles from './Contact.module.css';
 
 const LinkedinIcon = () => (
@@ -15,7 +16,11 @@ const LinkedinIcon = () => (
   </svg>
 );
 
-export default function Contact() {
+interface ContactProps {
+  settings?: SiteSettingsRecord;
+}
+
+export default function Contact({ settings }: ContactProps = {}) {
   const { ref: headerRef, isVisible: headerIsVisible } = useScrollReveal({ threshold: 0.1 });
   const { ref: leftRef, isVisible: leftIsVisible } = useScrollReveal({ threshold: 0.08 });
   const { ref: rightRef, isVisible: rightIsVisible } = useScrollReveal({ threshold: 0.08 });
@@ -26,8 +31,10 @@ export default function Contact() {
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
-  const email = 'himaamer937@gmail.com';
-  const phone = '+201096271378';
+  const email = settings?.email || 'himaamer937@gmail.com';
+  const phone = settings?.phone || '+20 109 627 1378';
+  const githubUrl = settings?.github_url || 'https://github.com/EbrahimAmer207';
+  const linkedinUrl = settings?.linkedin_url || 'https://www.linkedin.com/in/ebrahim-amer0/';
 
   const copyToClipboard = (text: string, type: 'email' | 'phone') => {
     navigator.clipboard.writeText(text);
@@ -126,7 +133,7 @@ export default function Contact() {
                   <Phone size={18} className={styles.cardIcon} />
                   <div className={styles.cardInfo}>
                     <span className={styles.cardLabel}>PHONE</span>
-                    <span className={styles.cardVal}>+20 109 627 1378</span>
+                    <span className={styles.cardVal}>{phone}</span>
                   </div>
                 </div>
                 <button className={styles.copyBtn} onClick={() => copyToClipboard(phone, 'phone')} title="Copy Phone Number">
@@ -136,10 +143,10 @@ export default function Contact() {
             </div>
 
             <div className={`${styles.socials} reveal reveal-up reveal-delay-3 ${leftIsVisible ? 'reveal-visible' : ''}`}>
-              <a href="https://github.com/EbrahimAmer207" target="_blank" rel="noopener noreferrer" className={styles.socialBadge}>
+              <a href={githubUrl} target="_blank" rel="noopener noreferrer" className={styles.socialBadge}>
                 <GitBranch size={16} /> <span>GitHub</span>
               </a>
-              <a href="https://www.linkedin.com/in/ebrahim-amer0/" target="_blank" rel="noopener noreferrer" className={styles.socialBadge}>
+              <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className={styles.socialBadge}>
                 <LinkedinIcon /> <span>LinkedIn</span>
               </a>
             </div>

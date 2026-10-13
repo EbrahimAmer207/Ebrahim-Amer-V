@@ -1,21 +1,25 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { projectsData } from '@/data/projectsData';
+import { getPublicProjects, getPublicProjectBySlug } from '@/lib/supabase/data';
+import { Project } from '@/data/projectsData';
 import CaseStudyClient from './CaseStudyClient';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
-  return projectsData.map((project) => ({
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const projects = await getPublicProjects();
+  return projects.map((project) => ({
     slug: project.slug,
   }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = projectsData.find((p) => p.slug === slug);
+  const project = await getPublicProjectBySlug(slug);
 
   if (!project) {
     return {
@@ -43,11 +47,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function CaseStudyPage({ params }: PageProps) {
   const { slug } = await params;
-  const project = projectsData.find((p) => p.slug === slug);
+  const projectRecord = await getPublicProjectBySlug(slug);
 
-  if (!project) {
+  if (!projectRecord) {
     notFound();
   }
+
+  const project: Project = {
+    slug: projectRecord.slug,
+    title: projectRecord.title,
+    category: projectRecord.category,
+    demoUrl: projectRecord.demo_url,
+    codeUrl: projectRecord.code_url,
+    isPrivateCode: projectRecord.is_private_code,
+    brandNameArabic: projectRecord.brand_name_arabic || undefined,
+    description: projectRecord.description,
+    longDescription: projectRecord.long_description,
+    tech: projectRecord.tech || [],
+    metrics: projectRecord.metrics || [],
+    story: projectRecord.story || { problem: '', solution: '', result: '' },
+    challenges: projectRecord.challenges || [],
+    outcomes: projectRecord.outcomes || [],
+    screenshots: projectRecord.screenshots || [],
+  };
 
   return <CaseStudyClient project={project} />;
 }

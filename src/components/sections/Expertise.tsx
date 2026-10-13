@@ -45,7 +45,7 @@ export default function Expertise() {
             <MobileCarousel desktopGridClass={styles.grid}>
               {coreStack.map((item, i) => (
                 <Card
-                  key={i}
+                  key={item.title}
                   className={`${styles.card} reveal reveal-up reveal-delay-${i + 1} ${gridIsVisible ? 'reveal-visible' : ''}`}
                   style={{ height: '100%', minHeight: '260px' }}
                 >

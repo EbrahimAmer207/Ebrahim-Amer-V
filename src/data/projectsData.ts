@@ -370,4 +370,51 @@ export const projectsData: Project[] = [
       },
     ],
   },
+  {
+    slug: 'supabase-portfolio',
+    title: 'Supabase Portfolio CMS',
+    category: 'Fullstack React Development',
+    demoUrl: 'https://ebrahim-amer.vercel.app/',
+    codeUrl: 'https://github.com/EbrahimAmer207/Ebrahim-Amer',
+    isPrivateCode: false,
+    description: 'An interactive portfolio platform powered by React, Vite, and Supabase, featuring a live admin dashboard, JWT auth, PostgreSQL database, and command palette navigation.',
+    longDescription: 'This is a high-performance personal portfolio architecture integrated with a complete admin dashboard. It enables real-time content editing, dynamic project/skill management, and instant cloud database synchronization on Supabase PostgreSQL without writing code or redeploying.',
+    tech: [
+      'React.js',
+      'Vite',
+      'Supabase (BaaS)',
+      'PostgreSQL',
+      'JWT Auth',
+      'Bootstrap 5',
+      'Command Palette',
+      'CSS Modules',
+    ],
+    metrics: [
+      { label: 'Database sync latency', value: '< 8ms' },
+      { label: 'Admin JWT duration', value: 'Secure' },
+      { label: 'Command response time', value: '< 10ms' },
+      { label: 'CSS bundle size', value: '24kb' },
+    ],
+    story: {
+      problem: 'Traditional portfolio sites require developers to manually edit source code and rebuild/redeploy the entire site just to update a project description or add a new skill.',
+      solution: 'Engineered a client-side React portfolio hooked up to a remote Supabase PostgreSQL database. Developed an authentication gate and a private dashboard for WYSIWYG editing, enabling real-time content updates.',
+      result: 'An interactive, dynamic portfolio platform that saves content changes instantly, syncs globally in milliseconds, and allows navigation via a keyboard-driven Command Palette.',
+    },
+    challenges: [
+      'Securing content routes on the client side using robust auth state validation gates.',
+      'Designing a dynamic database schema to store nested arrays (skills, timeline, achievements) in a clean, queryable format.',
+      'Managing complex form validation and automatic draft saving within the admin dashboard.',
+    ],
+    outcomes: [
+      'Built a secure authentication gate using JWT and Supabase User sessions.',
+      'Designed a keyboard-friendly command palette interface allowing instant routing across sections.',
+      'Implemented an automatic real-time sync model that updates the public portfolio instantly upon dashboard saving.',
+    ],
+    screenshots: [
+      {
+        src: '/Img/port.png',
+        caption: 'Supabase Portfolio CMS interactive dashboard and public showcase.',
+      },
+    ],
+  },
 ];

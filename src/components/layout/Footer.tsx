@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { GitBranch, Mail, ArrowUp } from 'lucide-react';
+import { SiteSettingsRecord } from '@/lib/supabase/types';
 import styles from './Footer.module.css';
 
 // Inline LinkedIn SVG since lucide-react v1.x has no brand icons
@@ -13,10 +14,14 @@ const LinkedinIcon = () => (
   </svg>
 );
 
-export default function Footer() {
+export default function Footer({ settings }: { settings?: SiteSettingsRecord } = {}) {
   const scrollUp = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const githubUrl = settings?.github_url || 'https://github.com/EbrahimAmer207';
+  const linkedinUrl = settings?.linkedin_url || 'https://www.linkedin.com/in/ebrahim-amer0/';
+  const email = settings?.email || 'himaamer937@gmail.com';
 
   return (
     <footer className={styles.footer}>
@@ -32,13 +37,13 @@ export default function Footer() {
           <div className={styles.linksBlock}>
             <span className={styles.label}>Connect</span>
             <div className={styles.socials}>
-              <a href="https://github.com/EbrahimAmer207" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
+              <a href={githubUrl} target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
                 <GitBranch size={16} /> <span>GitHub</span>
               </a>
-              <a href="https://www.linkedin.com/in/ebrahim-amer0/" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
+              <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
                 <LinkedinIcon /> <span>LinkedIn</span>
               </a>
-              <a href="mailto:himaamer937@gmail.com" className={styles.socialLink}>
+              <a href={`mailto:${email}`} className={styles.socialLink}>
                 <Mail size={16} /> <span>Email</span>
               </a>
             </div>

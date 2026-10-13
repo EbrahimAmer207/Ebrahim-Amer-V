@@ -22,6 +22,8 @@ import {
   ShieldCheck,
   Zap
 } from 'lucide-react';
+import { SkillRecord, AIToolRecord } from '@/lib/supabase/types';
+import MobileCarousel from '../ui/MobileCarousel';
 import styles from './InteractiveSkills.module.css';
 
 type SkillCategory = 'all' | 'languages' | 'frontend' | 'backend' | 'tools';
@@ -76,7 +78,17 @@ const getSkillIcon = (name: string) => {
   return <Code2 size={15} />;
 };
 
-const aiToolsList: AIToolItem[] = [
+const getAIIcon = (iconName: string) => {
+  const n = (iconName || '').toLowerCase();
+  if (n.includes('terminal')) return <Terminal size={18} />;
+  if (n.includes('sparkles') || n.includes('chat')) return <Sparkles size={18} />;
+  if (n.includes('workflow')) return <Workflow size={18} />;
+  if (n.includes('binary') || n.includes('prompt')) return <Binary size={18} />;
+  if (n.includes('shield') || n.includes('debug')) return <ShieldCheck size={18} />;
+  return <Sparkles size={18} />;
+};
+
+const defaultAiToolsList: AIToolItem[] = [
   {
     name: 'Google Antigravity',
     tag: 'Workflow & Coding',
@@ -114,53 +126,76 @@ const aiToolsList: AIToolItem[] = [
   },
 ];
 
-export default function InteractiveSkills() {
+const defaultSkills: SkillItem[] = [
+  // Languages
+  { name: 'JavaScript ES6+', category: 'languages', level: 'Expert' },
+  { name: 'TypeScript', category: 'languages', level: 'Advanced' },
+  { name: 'SQL', category: 'languages', level: 'Advanced' },
+  { name: 'Python', category: 'languages', level: 'Intermediate' },
+  { name: 'C++', category: 'languages', level: 'Intermediate' },
+  { name: 'C#', category: 'languages', level: 'Intermediate' },
+
+  // Frontend
+  { name: 'React.js (v19)', category: 'frontend', level: 'Expert' },
+  { name: 'Next.js (App Router)', category: 'frontend', level: 'Expert' },
+  { name: 'HTML5 & CSS3', category: 'frontend', level: 'Expert' },
+  { name: 'TanStack Query', category: 'frontend', level: 'Advanced' },
+  { name: 'Redux Toolkit', category: 'frontend', level: 'Advanced' },
+  { name: 'Context API', category: 'frontend', level: 'Expert' },
+  { name: 'Tailwind CSS', category: 'frontend', level: 'Expert' },
+  { name: 'Bootstrap 5', category: 'frontend', level: 'Expert' },
+  { name: 'Vite', category: 'frontend', level: 'Expert' },
+
+  // Backend & Persistence
+  { name: 'SQLite WASM', category: 'backend', level: 'Advanced' },
+  { name: 'RESTful APIs', category: 'backend', level: 'Expert' },
+  { name: 'MySQL', category: 'backend', level: 'Advanced' },
+  { name: 'Laravel', category: 'backend', level: 'Advanced' },
+  { name: 'PHP', category: 'backend', level: 'Advanced' },
+  { name: 'MVC Architecture', category: 'backend', level: 'Advanced' },
+  { name: 'OOP Concepts', category: 'backend', level: 'Advanced' },
+
+  // Tools & Engineering Practices
+  { name: 'Git & GitHub', category: 'tools', level: 'Expert' },
+  { name: 'Google Antigravity', category: 'tools', level: 'Expert' },
+  { name: 'ChatGPT', category: 'tools', level: 'Expert' },
+  { name: 'Performance Audit', category: 'tools', level: 'Advanced' },
+  { name: 'Problem Solving', category: 'tools', level: 'Expert' },
+  { name: 'Data Structures', category: 'tools', level: 'Advanced' },
+  { name: 'Algorithms', category: 'tools', level: 'Advanced' },
+];
+
+interface InteractiveSkillsProps {
+  skills?: SkillRecord[];
+  aiTools?: AIToolRecord[];
+}
+
+export default function InteractiveSkills({ skills: dbSkills, aiTools: dbAiTools }: InteractiveSkillsProps = {}) {
   const [activeTab, setActiveTab] = useState<SkillCategory>('all');
   const { ref: headerRef, isVisible: headerIsVisible } = useScrollReveal({ threshold: 0.1 });
   const { ref: aiRef, isVisible: aiIsVisible } = useScrollReveal({ threshold: 0.05 });
 
-  const skills: SkillItem[] = [
-    // Languages
-    { name: 'JavaScript ES6+', category: 'languages', level: 'Expert' },
-    { name: 'TypeScript', category: 'languages', level: 'Advanced' },
-    { name: 'SQL', category: 'languages', level: 'Advanced' },
-    { name: 'Python', category: 'languages', level: 'Intermediate' },
-    { name: 'C++', category: 'languages', level: 'Intermediate' },
-    { name: 'C#', category: 'languages', level: 'Intermediate' },
+  const activeSkills: SkillItem[] = (dbSkills && dbSkills.length > 0)
+    ? dbSkills.map(s => ({
+        name: s.name,
+        category: (s.category === 'ai' ? 'tools' : s.category) as Exclude<SkillCategory, 'all'>,
+        level: s.level,
+      }))
+    : defaultSkills;
 
-    // Frontend (React, Next.js, and TypeScript remain primary strengths)
-    { name: 'React.js (v19)', category: 'frontend', level: 'Expert' },
-    { name: 'Next.js (App Router)', category: 'frontend', level: 'Expert' },
-    { name: 'HTML5 & CSS3', category: 'frontend', level: 'Expert' },
-    { name: 'TanStack Query', category: 'frontend', level: 'Advanced' },
-    { name: 'Redux Toolkit', category: 'frontend', level: 'Advanced' },
-    { name: 'Context API', category: 'frontend', level: 'Expert' },
-    { name: 'Tailwind CSS', category: 'frontend', level: 'Expert' },
-    { name: 'Bootstrap 5', category: 'frontend', level: 'Expert' },
-    { name: 'Vite', category: 'frontend', level: 'Expert' },
-
-    // Backend & Persistence
-    { name: 'SQLite WASM', category: 'backend', level: 'Advanced' },
-    { name: 'RESTful APIs', category: 'backend', level: 'Expert' },
-    { name: 'MySQL', category: 'backend', level: 'Advanced' },
-    { name: 'Laravel', category: 'backend', level: 'Advanced' },
-    { name: 'PHP', category: 'backend', level: 'Advanced' },
-    { name: 'MVC Architecture', category: 'backend', level: 'Advanced' },
-    { name: 'OOP Concepts', category: 'backend', level: 'Advanced' },
-
-    // Tools & Engineering Practices
-    { name: 'Git & GitHub', category: 'tools', level: 'Expert' },
-    { name: 'Google Antigravity', category: 'tools', level: 'Expert' },
-    { name: 'ChatGPT', category: 'tools', level: 'Expert' },
-    { name: 'Performance Audit', category: 'tools', level: 'Advanced' },
-    { name: 'Problem Solving', category: 'tools', level: 'Expert' },
-    { name: 'Data Structures', category: 'tools', level: 'Advanced' },
-    { name: 'Algorithms', category: 'tools', level: 'Advanced' },
-  ];
+  const activeAiTools: AIToolItem[] = (dbAiTools && dbAiTools.length > 0)
+    ? dbAiTools.map(t => ({
+        name: t.name,
+        tag: t.tag,
+        summary: t.summary,
+        details: t.details,
+        icon: getAIIcon(t.icon_name),
+      }))
+    : defaultAiToolsList;
 
   const filteredSkills = activeTab === 'all'
-    ? skills
-    : skills.filter(s => s.category === activeTab);
+    ? activeSkills
+    : activeSkills.filter(s => s.category === activeTab);
 
   const tabs: { id: SkillCategory; label: string }[] = [
     { id: 'all', label: 'All Skills' },
@@ -290,11 +325,12 @@ export default function InteractiveSkills() {
             </div>
           </div>
 
-          <div className={styles.aiGrid}>
-            {aiToolsList.map((tool, idx) => (
+          <MobileCarousel desktopGridClass={styles.aiGrid} autoplay={false}>
+            {activeAiTools.map((tool, idx) => (
               <div
                 key={tool.name}
                 className={`${styles.aiCard} reveal reveal-up reveal-delay-${(idx % 3) + 1} ${aiIsVisible ? 'reveal-visible' : ''}`}
+                style={{ height: '100%' }}
               >
                 <div className={styles.aiCardHeader}>
                   <div className={styles.aiCardIcon}>
@@ -307,7 +343,7 @@ export default function InteractiveSkills() {
                 <p className={styles.aiCardDetails}>{tool.details}</p>
               </div>
             ))}
-          </div>
+          </MobileCarousel>
         </div>
 
       </div>
