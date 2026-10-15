@@ -55,7 +55,7 @@ export default function DashboardOverviewPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
             <Database size={18} style={{ color: '#00D4FF' }} />
             <div>
-              <strong style={{ color: '#ffffff' }}>Local Fallback Mode Active:</strong> Your portfolio is displaying all 9 verified projects and existing data. To persist new edits directly to your Supabase PostgreSQL cloud database, add your credentials to <code>.env.local</code>.
+              <strong style={{ color: '#ffffff' }}>Local Fallback Mode Active:</strong> Your portfolio is displaying all 9 verified projects and existing data. To persist new edits directly to your Supabase PostgreSQL cloud database, add your credentials to <code>.env.local</code> (locally) or Vercel Project Settings &rarr; Environment Variables (production).
             </div>
           </div>
           <Link href="/dashboard/settings" className={`${styles.btn} ${styles.btnSecondary}`} style={{ fontSize: '0.75rem', padding: '0.4rem 0.8rem' }}>
